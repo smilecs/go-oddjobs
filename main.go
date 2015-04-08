@@ -82,6 +82,8 @@ func main() {
 
 	//serving public views
 	http.HandleFunc("/fblogin", FacebookOAUTH)
+	http.HandleFunc("/profile/", ProfileHandler)
+	http.HandleFunc("/profile/edit", ProfileEditHandler)
 	http.HandleFunc("/", HomeHandler)
 
 	fmt.Println("serving on http://localhost:" + PORT)

@@ -31,17 +31,17 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 //ProfileHandler might be remove later, its just to test redirection and profile
 //data collection after login
 func ProfileHandler(w http.ResponseWriter, r *http.Request) {
-  type datastruct struct {
-  		User  LoginDataStruct
-  		FBURL string
-  	}
-  
-  	data := datastruct{
-  		User:  LoginData(r),
-  		FBURL: FBURL,
+	type datastruct struct {
+		User  LoginDataStruct
+		FBURL string
+	}
+
+	data := datastruct{
+		User:  LoginData(r),
+		FBURL: FBURL,
 	}
 	if r.Method == "GET" {
-		renderTemplate(w, "profile.html",data)
+		renderTemplate(w, "profile.html", data)
 	} else if r.Method == "POST" {
 		fmt.Println("POST request logged")
 	}
