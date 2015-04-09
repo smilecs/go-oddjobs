@@ -80,6 +80,9 @@ func main() {
 	http.HandleFunc("/api/search", ApiSearchHandler)
 	http.HandleFunc("/api/feeds", FeedsHandler)
 
+	//my web api
+	http.HandleFunc("/api/web/profile", ProfileEditHandler)
+
 	//serving public views
 	http.HandleFunc("/fblogin", FacebookOAUTH)
 	http.HandleFunc("/profile/edit", ProfileEditHandler)

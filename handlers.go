@@ -55,6 +55,7 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Method)
 	if r.Method == "GET" {
 		fmt.Println("Get request")
+		//sess, _ := store.Get(r, "user")
 		user := User{
 			Name:  "Anthony Alaribe Test",
 			About: "bla bla bla bla",
