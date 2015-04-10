@@ -85,7 +85,7 @@ func main() {
 
 	//serving public views
 	http.HandleFunc("/fblogin", FacebookOAUTH)
-	http.HandleFunc("/profile/edit", ProfileEditHandler)
+	http.HandleFunc("/api/web/profile", ProfileEditHandler)
 	http.HandleFunc("/profile/", ProfileHandler)
 	http.HandleFunc("/", HomeHandler)
 
