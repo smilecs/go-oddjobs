@@ -25,7 +25,7 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 
 	err = collection.Insert(data)
 	if err != nil {
-		return "error", err
+		return "", err
 	}
 	//collection.FindId(i).One(&user)
 	//fmt.Println(i)
