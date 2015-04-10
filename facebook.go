@@ -111,7 +111,7 @@ func GetAccessToken(clientID string, code string, secret string, callbackURI str
 	return token
 }
 
-//FBLogin is the handler that would be redirected to
+//FacebookOAUTH is the handler that would be redirected to
 func FacebookOAUTH(w http.ResponseWriter, r *http.Request) {
 	// grab the code fragment
 
@@ -167,23 +167,21 @@ func FacebookOAUTH(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	
+
 	u := User{
-    	Name:name,
-    	ID:id,
-    	Email:email,
-    	Image:img,
-  }
-  _,err=Authenticate(&u, "facebook")
-  
-  if err!=nil{
-    fmt.Println(err)
-  }
+		Name:  name,
+		ID:    id,
+		Email: email,
+		Image: img,
+	}
+	_, err = Authenticate(&u, "facebook")
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
 	fmt.Println("Checking the session values")
 	fmt.Println(session.Values["email"])
 
 	http.Redirect(w, r, "/", http.StatusFound)
 }
-
-

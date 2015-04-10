@@ -40,7 +40,7 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 	}
 	fmt.Println(data)
 	err = lookUpSession.Insert(lookup)
-if err != nil {
+	if err != nil {
 		return "error", err
 	}
 	return data._id, nil
@@ -49,10 +49,9 @@ if err != nil {
 //Authenticate check if user exists if not create a new user document NewUser function is called within this function. note the user struct being passed
 //to this function should alredi contain a self generated objectid
 func Authenticate(user *User, provider string) (bson.ObjectId, error) {
-	fmt.Println("test")
 	session, err := mgo.Dial(MONGOSERVER)
 	if err != nil {
-		return " ", err
+		return "", err
 	}
 	defer session.Close()
 	result := LookUp{}
