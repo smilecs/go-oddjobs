@@ -50,7 +50,8 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 //to this function should alredi contain a self generated objectid
 func Authenticate(user *User, provider string) (bson.ObjectId, error) {
 	session, err := mgo.Dial(MONGOSERVER)
-	checkPanic(err)
+	//checkPanic(err)
+	checkFmt(err)
 	defer session.Close()
 	result := LookUp{}
 	lookupCollection := session.DB(MONGODB).C("lookup")
