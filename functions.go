@@ -57,7 +57,7 @@ func Authenticate(user *User, provider string) (bson.ObjectId, error) {
 	lookupCollection := session.DB(MONGODB).C("lookup")
 
 	err = lookupCollection.Find(bson.M{"IdFromProvider": user.ID, "provider": provider}).One(&result)
-	//checkFmt(err)
+	checkFmt(err)
 
 	if result.UserId != "" {
 		return result.UserId, nil
