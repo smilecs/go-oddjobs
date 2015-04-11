@@ -34,12 +34,14 @@ func init() {
 		fmt.Println("No mongo server address set, resulting to default address")
 		MONGOSERVER = "localhost"
 	}
+	fmt.Println("MONGOSERVER is ", MONGOSERVER)
 
 	MONGODB = os.Getenv("MONGODB")
 	if MONGODB == "" {
 		fmt.Println("No Mongo database name set, resulting to default")
 		MONGODB = "oddjobs"
 	}
+	fmt.Println("MONGODB is ", MONGODB)
 
 	PORT = os.Getenv("PORT")
 	if PORT == "" {
