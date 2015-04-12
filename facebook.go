@@ -9,6 +9,7 @@ import (
 
 	"github.com/antonholmquist/jason"
 	"golang.org/x/oauth2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 var (
@@ -167,21 +168,19 @@ func FacebookOAUTH(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	u := User{
+		_id:   bson.NewObjectId(),
 		Name:  name,
 		ID:    id,
 		Email: email,
 		Image: img,
 	}
-	_, err = Authenticate(&u, "facebook")
+	uid, err := Authenticate(&u, "facebook")
 
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
-	fmt.Println("Checking the session values")
-	fmt.Println(session.Values["email"])
-
+	session.Values["id"] = uid
 	http.Redirect(w, r, "/", http.StatusFound)
 }
