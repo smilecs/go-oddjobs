@@ -9,6 +9,7 @@ import (
 
 	"github.com/antonholmquist/jason"
 	"golang.org/x/oauth2"
+	"gopkg.in/mgo.v2/bson"
 )
 
 var (
@@ -111,7 +112,7 @@ func GetAccessToken(clientID string, code string, secret string, callbackURI str
 	return token
 }
 
-//FBLogin is the handler that would be redirected to
+//FacebookOAUTH is the handler that would be redirected to
 func FacebookOAUTH(w http.ResponseWriter, r *http.Request) {
 	// grab the code fragment
 
@@ -167,23 +168,19 @@ func FacebookOAUTH(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	
 	u := User{
-    	Name:name,
-    	ID:id,
-    	Email:email,
-    	Image:img,
-  }
-  _,err=Authenticate(&u, "facebook")
-  
-  if err!=nil{
-    fmt.Println(err)
-  }
+		_id:   bson.NewObjectId(),
+		Name:  name,
+		ID:    id,
+		Email: email,
+		Image: img,
+	}
+	uid, err := Authenticate(&u, "facebook")
 
-	fmt.Println("Checking the session values")
-	fmt.Println(session.Values["email"])
+	if err != nil {
+		fmt.Println(err.Error())
+	}
 
+	session.Values["id"] = uid
 	http.Redirect(w, r, "/", http.StatusFound)
 }
-
-

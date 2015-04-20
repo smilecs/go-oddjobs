@@ -31,17 +31,17 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 //ProfileHandler might be remove later, its just to test redirection and profile
 //data collection after login
 func ProfileHandler(w http.ResponseWriter, r *http.Request) {
-  type datastruct struct {
-  		User  LoginDataStruct
-  		FBURL string
-  	}
-  
-  	data := datastruct{
-  		User:  LoginData(r),
-  		FBURL: FBURL,
+	type datastruct struct {
+		User  LoginDataStruct
+		FBURL string
+	}
+
+	data := datastruct{
+		User:  LoginData(r),
+		FBURL: FBURL,
 	}
 	if r.Method == "GET" {
-		renderTemplate(w, "profile.html",data)
+		renderTemplate(w, "profile.html", data)
 	} else if r.Method == "POST" {
 		fmt.Println("POST request logged")
 	}
@@ -53,39 +53,36 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 	fmt.Println(r.Method)
+	session, err := store.Get(r, "user")
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	id := session.Values["id"].(string)
+
 	if r.Method == "GET" {
 		fmt.Println("Get request")
-		user := User{
-			Name:  "Anthony Alaribe Test",
-			About: "bla bla bla bla",
-			Email: "me@me.com",
-		}
+		user, _ := GetProfile(id)
 		x, err := json.Marshal(user)
-		if err != nil {
-			fmt.Println(err)
-		}
+		checkFmt(err)
 		w.Header().Set("Content-Type", "application/json")
 		_, err = w.Write(x)
 
-		if err != nil {
-			fmt.Println(err)
-		}
+		checkFmt(err)
 
 	} else if r.Method == "POST" {
 		hah, err := ioutil.ReadAll(r.Body)
-		if err != nil {
-			fmt.Fprintf(w, "%s", err)
-		}
+		checkFmt(err)
+
 		fmt.Println(string(hah))
 		user := User{}
 
 		err = json.Unmarshal(hah, &user)
 
-		if err != nil {
-			fmt.Println(err)
-		}
+		checkFmt(err)
 
-		fmt.Println(user)
+		err = UpdateUser(&user, id)
+		checkFmt(err)
 	}
 }
 
@@ -94,11 +91,9 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-	fmt.Println(r.Method)
 	hah, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		fmt.Fprintf(w, "%s", err)
-	}
+	checkFmt(err)
+
 	fmt.Println(string(hah))
 	if r.Method == "GET" {
 		fmt.Println("get request")
