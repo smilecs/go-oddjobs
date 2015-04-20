@@ -144,7 +144,7 @@ func ApiSearchHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.URL)
 	fmt.Println(r.URL.Query())
 	tmp2 := r.URL.Query().Get("query")
-	v, _, _ := Search(tmp, tmp2, 50, 50, 50)
+	v, _, _ := Search(tmp, tmp2, 50, 50)
 
 	w.Header().Set("Content_Type", "application/json")
 	data, _ := json.Marshal(v)

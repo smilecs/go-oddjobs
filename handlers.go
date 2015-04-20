@@ -25,7 +25,54 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 //SearchHandler serves the search results page based on a search query from the
 //index page or any search box
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "search-results.html", "")
+	r.ParseForm()
+
+	location := r.FormValue("l")
+	query := r.FormValue("q")
+	d, p, err := Search(location, query, 1, 20)
+	if err != nil {
+		checkFmt(err)
+	}
+	type datastruct struct {
+		User  LoginDataStruct
+		FBURL string
+		Page  Page
+		Data  []Skill
+		L     string
+		Q     string
+	}
+
+	data := datastruct{
+		User:  LoginData(r),
+		FBURL: FBURL,
+		Data:  d,
+		Page:  p,
+		L:     location,
+		Q:     query,
+	}
+	renderTemplate(w, "search-results.html", data)
+}
+
+//SearchHandler serves the search results page based on a search query from the
+//index page or any search box
+func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	id := r.FormValue("id")
+	skill, err := GetSkill(id)
+	checkFmt(err)
+
+	type datastruct struct {
+		User  LoginDataStruct
+		FBURL string
+		Data  Skill
+	}
+
+	data := datastruct{
+		User:  LoginData(r),
+		FBURL: FBURL,
+		Data:  skill,
+	}
+	renderTemplate(w, "search-results.html", data)
 }
 
 //ProfileHandler might be remove later, its just to test redirection and profile

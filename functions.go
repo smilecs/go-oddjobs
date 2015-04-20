@@ -254,7 +254,7 @@ func AddComment(comment *Comment, id string) error {
 
 //Search takes a location and a search query and returns a slice of structs that
 //match the query
-func Search(location string, query string, count int, page int, perPage int) ([]Skill, Page, error) {
+func Search(location string, query string, page int, perPage int) ([]Skill, Page, error) {
 	var Results []Skill
 	var Page Page
 	session, err := mgo.Dial(MONGOSERVER)
@@ -285,8 +285,15 @@ func Search(location string, query string, count int, page int, perPage int) ([]
 		},
 	)
 
+	count, err := q.Count()
+
+	if err != nil {
+		checkFmt(err)
+	}
+
 	//SearchPagination gives us a struct that tells us if the data has a
 	//next page or previous page, as well as the page number
+
 	Page = SearchPagination(count, page, perPage)
 
 	err = q.Limit(perPage).Skip(Page.Skip).All(&Results)
