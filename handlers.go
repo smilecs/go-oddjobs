@@ -131,6 +131,7 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 		err = json.Unmarshal(hah, &user)
 
 		checkFmt(err)
+		fmt.Println(user)
 
 		err = UpdateUser(&user, id)
 		checkFmt(err)
