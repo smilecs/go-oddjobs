@@ -74,7 +74,7 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 		hah, err := ioutil.ReadAll(r.Body)
 		checkFmt(err)
 
-		fmt.Println(string(hah))
+		fmt.Println(stzring(hah))
 		user := User{}
 
 		err = json.Unmarshal(hah, &user)
@@ -85,6 +85,22 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 		checkFmt(err)
 	}
 }
+
+func Login(w http.ResponseWriter, r *http.Request) {
+	session, err := store.Get(r, "current")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(r.URL.String())
+
+	session.Values["url"] = r.URL.String()
+
+	http.Redirect(w, r, FBURL, http.StatusFound)
+}
+
+/*func Logout(w http.ResponseWriter, r *http.Request){
+
+}*/
 
 //SkillsHandler would return list of skills via json, and suport editing and
 //addition of new skills

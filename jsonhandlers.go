@@ -81,6 +81,7 @@ func UserSkillshandler(w http.ResponseWriter, r *http.Request) {
 
 			UserID:      id,
 			UserName:    userName.Name,
+			Phone:       r.FormValue("phone"),
 			Location:    r.FormValue("location"),
 			Description: r.FormValue("desc"),
 			Address:     r.FormValue("address"),
@@ -107,9 +108,10 @@ func BookmarkHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(bookmarkData)
 	case "POST":
 		bookmark := &BookMark{
-			id:        r.FormValue("id"),
-			Name:      r.FormValue("phone"),
-			SkillName: r.FormValue("email"),
+			Id:        r.FormValue("Id"),
+			Name:      r.FormValue("Name"),
+			SkillName: r.FormValue("SkillName"),
+			Phone:     r.FormValue("Phone"),
 		}
 		AddBookmark(bookmark, urlID)
 	}
@@ -132,7 +134,7 @@ func FeedsHandler(w http.ResponseWriter, r *http.Request) {
 	v, _ := Popular()
 	w.Header().Set("Content_Type", "application/json")
 	data, _ := json.Marshal(v)
-	fmt.Println(data)
+	fmt.Println(v)
 	w.Write(data)
 }
 

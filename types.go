@@ -26,6 +26,7 @@ type Skill struct {
 	SkillName   string
 	UserName    string
 	Tags        []string
+	Phone       string
 	UserID      string
 	Location    string
 	Address     string
@@ -75,5 +76,6 @@ type Page struct {
 type BookMark struct {
 	Name      string
 	SkillName string
-	id        string
+	Id        string
+	Phone     string
 }
