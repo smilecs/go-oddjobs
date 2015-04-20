@@ -159,6 +159,8 @@ func FacebookOAUTH(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println("name")
+	fmt.Println(name)
 
 	u := User{
 		_id:   bson.NewObjectId(),
