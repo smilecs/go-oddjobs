@@ -116,6 +116,7 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 		checkFmt(err)
 		x, err := json.Marshal(user)
 		checkFmt(err)
+		fmt.Println(x)
 		w.Header().Set("Content-Type", "application/json")
 		_, err = w.Write(x)
 
