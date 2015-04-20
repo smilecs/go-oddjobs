@@ -77,7 +77,7 @@ func UpdateUser(data *User, id string) error {
 	query := bson.ObjectIdHex(id)
 	change := bson.M{"$set": data}
 
-	err = collection.Update(query, change)
+	err = collection.UpdateId(query, change)
 
 	if err != nil {
 		return err
