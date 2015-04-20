@@ -180,7 +180,8 @@ func FacebookOAUTH(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-
+	fmt.Println("printing UID")
+	fmt.Println(uid)
 	session.Values["id"] = uid
 	http.Redirect(w, r, "/", http.StatusFound)
 }
