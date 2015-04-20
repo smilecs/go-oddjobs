@@ -58,6 +58,9 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
+	fmt.Println(session.Values["id"])
+	fmt.Println(session.Values["email"])
+
 	id := session.Values["id"].(string)
 
 	if r.Method == "GET" {
