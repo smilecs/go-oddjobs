@@ -74,7 +74,7 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 		hah, err := ioutil.ReadAll(r.Body)
 		checkFmt(err)
 
-		fmt.Println(stzring(hah))
+		fmt.Println(string(hah))
 		user := User{}
 
 		err = json.Unmarshal(hah, &user)
