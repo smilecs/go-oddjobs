@@ -21,17 +21,10 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 	//MONGODB is the database name while MONGOC is the collection name
 	collection := session.DB(MONGODB).C("users")
 
-	//i := bson.NewObjectId()
-
 	err = collection.Insert(data)
 	if err != nil {
 		return "", err
 	}
-	//collection.FindId(i).One(&user)
-	//fmt.Println(i)
-	//fmt.Println(user)
-	//err = collection.Find(bson.M{"ID": data.ID}).One(&user)
-	//checkFmt(err)
 
 	lookup := &LookUp{
 		Provider:       socialProvider,
@@ -40,6 +33,7 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 	}
 	fmt.Println(data)
 	err = lookUpSession.Insert(lookup)
+
 	if err != nil {
 		return "error", err
 	}
