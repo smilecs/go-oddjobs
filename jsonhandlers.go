@@ -17,10 +17,10 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	id := bson.NewObjectId()
 	//nw := strings.(id)
 	user := &User{
-		Email: r.FormValue("email"),
-		ID:    r.FormValue("ID"),
-		Name:  r.FormValue("name"),
-		_id:   id,
+		Email:  r.FormValue("email"),
+		ID:     r.FormValue("ID"),
+		Name:   r.FormValue("name"),
+		UserID: id,
 	}
 
 	fmt.Println(user)

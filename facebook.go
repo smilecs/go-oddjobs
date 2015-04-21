@@ -162,12 +162,13 @@ func FacebookOAUTH(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("name")
 	fmt.Println(name)
 
+	genID := bson.NewObjectId()
 	u := User{
-		_id:   bson.NewObjectId(),
-		Name:  name,
-		ID:    id,
-		Email: email,
-		Image: img,
+		UserID: genID,
+		Name:   name,
+		ID:     id,
+		Email:  email,
+		Image:  img,
 	}
 	uid, err := Authenticate(&u, "facebook")
 

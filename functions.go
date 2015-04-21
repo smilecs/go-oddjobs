@@ -14,8 +14,7 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 	session, err := mgo.Dial(MONGOSERVER)
 	checkPanic(err)
 	defer session.Close()
-	//user := User{}
-	//userId := data._id
+
 	lookUpSession := session.DB(MONGODB).C("lookup")
 
 	//MONGODB is the database name while MONGOC is the collection name
@@ -29,7 +28,7 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 	lookup := &LookUp{
 		Provider:       socialProvider,
 		IdFromProvider: data.ID,
-		UserId:         data._id,
+		UserId:         data.UserID,
 	}
 	fmt.Println(data)
 	err = lookUpSession.Insert(lookup)
@@ -37,7 +36,7 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 	if err != nil {
 		return "error", err
 	}
-	return data._id, nil
+	return data.UserID, nil
 }
 
 //Authenticate check if user exists if not create a new user document NewUser function is called within this function. note the user struct being passed
@@ -76,10 +75,12 @@ func UpdateUser(data *User, id string) error {
 	defer session.Close()
 
 	collection := session.DB(MONGODB).C("users")
-	query := bson.ObjectIdHex(id)
+	query := bson.M{
+		"userid": bson.ObjectIdHex(id),
+	}
 	change := bson.M{"$set": data}
 
-	err = collection.UpdateId(query, change)
+	err = collection.Update(query, change)
 
 	if err != nil {
 		return err
@@ -99,8 +100,10 @@ func GetProfile(id string) (User, error) {
 	}
 	defer session.Close()
 	collection := session.DB(MONGODB).C("users")
-
-	err = collection.FindId(bson.ObjectIdHex(id)).One(&result)
+	query := bson.M{
+		"userid": bson.ObjectIdHex(id),
+	}
+	err = collection.Find(query).One(&result)
 	if err != nil {
 		return result, err
 	}
@@ -200,7 +203,11 @@ func AddBookmark(bookmark *BookMark, id string) error {
 	}
 	defer session.Close()
 	userCollection := session.DB(MONGODB).C("users")
-	query := bson.ObjectIdHex(id)
+
+	query := bson.M{
+		"userid": bson.ObjectIdHex(id),
+	}
+
 	change := bson.M{"$push": bson.M{"Bookmarks": bookmark}}
 	err = userCollection.Update(query, change)
 	if err != nil {
@@ -219,7 +226,12 @@ func GetBookmarks(id string) ([]User, error) {
 	}
 	defer session.Close()
 	userCollection := session.DB(MONGODB).C("users")
-	err = userCollection.FindId(bson.ObjectIdHex(id)).Select(bson.M{"Bookmarks": 1}).All(&result)
+
+	query := bson.M{
+		"userid": bson.ObjectIdHex(id),
+	}
+
+	err = userCollection.Find(query).Select(bson.M{"Bookmarks": 1}).All(&result)
 	if err != nil {
 		return result, err
 	}
