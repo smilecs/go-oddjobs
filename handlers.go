@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	//"strings"
 )
 
 //HomeHandler serves the home/search page to the user
@@ -56,8 +57,12 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 //SearchHandler serves the search results page based on a search query from the
 //index page or any search box
 func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	id := r.FormValue("id")
+	/*r.ParseForm()
+	//id := r.FormValue("id")
+
+	URL := strings.Split(r.URL.Path, "/")
+	id := URL[2]
+
 	skill, err := GetSkill(id)
 	checkFmt(err)
 
@@ -72,7 +77,8 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		FBURL: FBURL,
 		Data:  skill,
 	}
-	renderTemplate(w, "search-results.html", data)
+	renderTemplate(w, "single.html", data)*/
+	renderTemplate(w, "single.html", "")
 }
 
 //ProfileHandler might be remove later, its just to test redirection and profile

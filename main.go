@@ -26,7 +26,7 @@ var (
 
 //pre parse the template files, and store them in memory. Fail if
 //they're not found
-var templates = template.Must(template.ParseFiles("templates/index.html", "templates/search-results.html", "templates/profile.html"))
+var templates = template.Must(template.ParseFiles("templates/index.html", "templates/search-results.html", "templates/single.html", "templates/profile.html"))
 
 func init() {
 	MONGOSERVER = os.Getenv("MONGOSERVER")
@@ -90,6 +90,7 @@ func main() {
 	// http.HandleFunc("/logout", Logout)
 	http.HandleFunc("/profile/", ProfileHandler)
 	http.HandleFunc("/login", Login)
+	http.HandleFunc("/s/", SingleHandlerWeb)
 	http.HandleFunc("/", HomeHandler)
 
 	fmt.Println("serving on http://localhost:" + PORT)
