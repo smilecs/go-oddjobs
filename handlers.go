@@ -118,6 +118,7 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 
 	if r.Method == "GET" {
 		fmt.Println("Get request")
+		fmt.Println(id)
 		user, err := GetProfile(id)
 		checkFmt(err)
 		x, err := json.Marshal(user)
