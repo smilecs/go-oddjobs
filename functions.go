@@ -56,6 +56,8 @@ func Authenticate(user *User, provider string) (bson.ObjectId, error) {
 	err = lookupCollection.Find(bson.M{"IdFromProvider": user.ID, "provider": provider}).One(&result)
 	checkFmt(err)
 
+	fmt.Println(result)
+
 	if result.Provider != "" {
 		return result.UserId, nil
 	}
