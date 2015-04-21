@@ -1,0 +1,165 @@
+{{ define "jstemplates"}}
+
+    <script type="text/template" id="profile-page">
+              <div class="username-box">
+                  <h3>Set Your Username</h3>
+                  <small style="font-weight:300">e.g oddjobs.com/<strong>username</strong>. You can set
+                      your username only once.</small><br/><br/>
+
+                  <div>
+                      oddjobs.com/<input type="text" class="form-control"
+                                                     style="display:inline-block;
+                                                     width:50%;">
+                  </div>
+                  <br/>
+                  <button class="btn btn-lg btn-default" style="">Save</button>
+              </div>
+
+              <h3>Profile Data</h3>
+              <br/>
+              <form class="profile-form" id="profile-form">
+                <div class="form-group">
+                    <label for="nameInput">YOUR FULL NAME*</label>
+                    <input type="text" class="form-control" id="nameInput"
+                    value="<%= Name %>" name="Name">
+                </div>
+                <div class="form-group">
+                    <label for="cityInput">YOUR CITY*</label>
+                    <input type="text" class="form-control" id="cityInput"
+                    value="<%= Location %>" name="Location">
+                </div>
+
+                <div class="form-group">
+                    <label for="personalInfoInput">A LITTLE ABOUT
+                        YOURSELF</label>
+                    <textarea  class="form-control" id="personalInfoInput"
+                    name="About"><%= About %> </textarea>
+                
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumberInput">YOUR MOBILE NUMBER</label>
+                    <input type="tel" class="form-control"
+                                       id="phoneNumberInput" value="<%= Phone %>" name="Phone">
+                </div>
+                <div class="form-group">
+                    <label for="emailInput">YOUR EMAIL</label>
+                    <input type="text" class="form-control" id="emailInput"
+                                                            value="<%= Email %>"
+                                                            name="Email">
+                </div>
+                <br/>
+                <a id="submit" class="btn btn-lg btn-default"  >Save</a>
+              </form>
+    </script>
+
+    <script type="text-template" id="add-skill">
+          <form   style="border-bottom:1px solid #f0f0f0;
+                  padding-bottom:10px; " >
+                  <input type="text" value="<%= SkillName %>" name="SkillName"
+                                     class="form-control"
+                                     style="display:inline-block;
+                                     width:48%";>
+                  &gt;
+                <input type="text"
+                                                  class="form-control"
+                                                  value="<%= Location %>"
+                                                  name="Location"
+                                                  style="display:inline-block;
+                                                  width:49%;"/>
+                     
+                <br/><br/>
+                  <input class="form-control" type="text" value="<%= Address %>"
+                  name="Address"/>
+                  <br/>
+                  <textarea class="form-control" name="Description" ><%=Description %></textarea>
+                  <br/>
+                  <div class="tags">
+                  </div>
+                  <br/>
+                  <div>
+                      <input type="text" class=" form-control tag-input"
+                      style="display:inline-block; width:150px">
+                      <a class="btn  btn-default tag-submit"><i class="fa fa-plus"></i></a>
+                      <button class="btn btn-lg btn-success pull-right newsave"> <i
+                              class="fa fa-save" ></i></button>
+                  </div>
+                  <div style="clear:both;"></div>
+              </form>
+             
+    
+    </script>
+
+
+    <script type="text-template" id="edit-skill">
+          <form   style="border-bottom:1px solid #f0f0f0;
+                  padding-bottom:10px; ">
+                  <input type="text" value="<%= SkillName %>" name="SkillName"
+                                     class="form-control"
+                                     style="display:inline-block;
+                                     width:48%";>
+                  &gt;
+                <input type="text"
+                                                  class="form-control"
+                                                  value="<%= Location %>"
+                                                  name="Location"
+                                                  style="display:inline-block;
+                                                  width:49%;"/>
+                     
+                <br/><br/>
+                  <input class="form-control" type="text" value="<%= Address %>"
+                  name="Address"/>
+                  <br/>
+                  <textarea class="form-control" name="Description" ><%=Description %></textarea>
+                  <br/>
+                  <div class="tags">
+                      <span class="btn btn-xs btn-default"> <a href="#"> Tag
+                              1</a>&nbsp;
+                          <a href="#" class="close">x</a></span>
+                  </div>
+                  <br/>
+                  <div>
+                      <input type="text" class=" form-control "
+                      style="display:inline-block; width:150px">
+                      <button class="btn  btn-default"><i class="fa fa-plus"></i></button>
+                      <button class="btn btn-lg btn-success pull-right save"> <i
+                              class="fa fa-save" ></i></button>
+                  </div>
+                  <div style="clear:both;"></div>
+              </form>
+             
+    
+    </script>
+
+    <script type="text/template" id="skills-single">
+               <div   style="border-bottom:1px solid #f0f0f0;
+                  padding-bottom:10px; ">
+                  <h3> <%=SkillName %> <small>&nbsp;>&nbsp; <%= Location %></small>
+                      <button class="btn btn-xs btn-default pull-right edit"><i class="fa fa-edit"></i></button>
+                  </h3>
+                  <small style="color:#777; "> <i class="fa
+                  fa-map-marker"></i>&nbsp;&nbsp;QC 28 unical Staff Quaters</small>
+                  <br/>
+                  <p><%=Description%></p>
+                  <small class="tags">
+
+                    <% _.forEach(Tags, function(tag){ %>
+                      <span class="btn btn-xs btn-default">
+                      <a href="#">
+                        <%= tag %></a>
+                      </a>&nbsp;
+                          <a href="#"class="close">x</a></span>
+                        <%}); %>
+                          <span class="btn btn-default"><i class="fa fa-plus"></i></span>
+                  </small>
+              </div>
+  
+    </script>
+    
+
+    <script type="text/template" id="bookmark-page">
+        <span>   in bookmark page</span>
+    </script>
+  
+
+{{end}}
+    

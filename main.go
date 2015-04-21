@@ -26,7 +26,7 @@ var (
 
 //pre parse the template files, and store them in memory. Fail if
 //they're not found
-var templates = template.Must(template.ParseFiles("templates/index.html", "templates/search-results.html", "templates/profile.html"))
+var templates = template.Must(template.ParseFiles("templates/index.html", "templates/search-results.html", "templates/profile.html","templates/jstemplates.html"))
 
 func init() {
 	MONGOSERVER = os.Getenv("MONGOSERVER")
@@ -84,6 +84,7 @@ func main() {
 
 	//my web api
 	http.HandleFunc("/api/web/profile", ProfileEditHandler)
+	http.HandleFunc("/api/web/skills", SkillsHandler)
 
 	//serving public views
 	http.HandleFunc("/fblogin", FacebookOAUTH)

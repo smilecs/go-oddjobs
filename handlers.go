@@ -86,6 +86,7 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+
 //SkillsHandler would return list of skills via json, and suport editing and
 //addition of new skills
 func SkillsHandler(w http.ResponseWriter, r *http.Request) {
