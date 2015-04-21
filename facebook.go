@@ -159,6 +159,25 @@ func FacebookOAUTH(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	fmt.Println("name")
+	fmt.Println(name)
+
+	genID := bson.NewObjectId()
+	u := User{
+		UserID: genID,
+		Name:   name,
+		ID:     id,
+		Email:  email,
+		Image:  img,
+	}
+	uid, err := Authenticate(&u, "facebook")
+
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Println("printing UID")
+	fmt.Println(uid.Hex())
+	session.Values["id"] = uid.Hex()
 
 	session.Values["email"] = email
 	session.Values["name"] = name
@@ -168,19 +187,5 @@ func FacebookOAUTH(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	u := User{
-		_id:   bson.NewObjectId(),
-		Name:  name,
-		ID:    id,
-		Email: email,
-		Image: img,
-	}
-	uid, err := Authenticate(&u, "facebook")
-
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-
-	session.Values["id"] = uid
 	http.Redirect(w, r, "/", http.StatusFound)
 }

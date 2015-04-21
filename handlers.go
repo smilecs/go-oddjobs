@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	//"strings"
 )
 
 //HomeHandler serves the home/search page to the user
@@ -25,7 +26,59 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 //SearchHandler serves the search results page based on a search query from the
 //index page or any search box
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
-	renderTemplate(w, "search-results.html", "")
+	r.ParseForm()
+
+	location := r.FormValue("l")
+	query := r.FormValue("q")
+	d, p, err := Search(location, query, 1, 20)
+	if err != nil {
+		checkFmt(err)
+	}
+	type datastruct struct {
+		User  LoginDataStruct
+		FBURL string
+		Page  Page
+		Data  []Skill
+		L     string
+		Q     string
+	}
+
+	data := datastruct{
+		User:  LoginData(r),
+		FBURL: FBURL,
+		Data:  d,
+		Page:  p,
+		L:     location,
+		Q:     query,
+	}
+	renderTemplate(w, "search-results.html", data)
+}
+
+//SearchHandler serves the search results page based on a search query from the
+//index page or any search box
+func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
+	/*r.ParseForm()
+	//id := r.FormValue("id")
+
+	URL := strings.Split(r.URL.Path, "/")
+	id := URL[2]
+
+	skill, err := GetSkill(id)
+	checkFmt(err)
+
+	type datastruct struct {
+		User  LoginDataStruct
+		FBURL string
+		Data  Skill
+	}
+
+	data := datastruct{
+		User:  LoginData(r),
+		FBURL: FBURL,
+		Data:  skill,
+	}
+	renderTemplate(w, "single.html", data)*/
+	renderTemplate(w, "single.html", "")
 }
 
 //ProfileHandler might be remove later, its just to test redirection and profile
@@ -58,13 +111,20 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 
+	fmt.Println(session.Values["id"])
+	fmt.Println(session.Values["email"])
+
 	id := session.Values["id"].(string)
 
 	if r.Method == "GET" {
 		fmt.Println("Get request")
-		user, _ := GetProfile(id)
+		fmt.Println(id)
+		user, err := GetProfile(id)
+		checkFmt(err)
 		x, err := json.Marshal(user)
 		checkFmt(err)
+		fmt.Println("Profile GET user data")
+		fmt.Println(user)
 		w.Header().Set("Content-Type", "application/json")
 		_, err = w.Write(x)
 
@@ -80,12 +140,29 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 		err = json.Unmarshal(hah, &user)
 
 		checkFmt(err)
+		fmt.Println(user)
 
 		err = UpdateUser(&user, id)
 		checkFmt(err)
 	}
 }
 
+//Login ish
+func Login(w http.ResponseWriter, r *http.Request) {
+	session, err := store.Get(r, "current")
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(r.URL.String())
+
+	session.Values["url"] = r.URL.String()
+
+	http.Redirect(w, r, FBURL, http.StatusFound)
+}
+
+/*func Logout(w http.ResponseWriter, r *http.Request){
+
+}*/
 
 //SkillsHandler would return list of skills via json, and suport editing and
 //addition of new skills

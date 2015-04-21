@@ -14,36 +14,29 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 	session, err := mgo.Dial(MONGOSERVER)
 	checkPanic(err)
 	defer session.Close()
-	//user := User{}
-	//userId := data._id
+
 	lookUpSession := session.DB(MONGODB).C("lookup")
 
 	//MONGODB is the database name while MONGOC is the collection name
 	collection := session.DB(MONGODB).C("users")
 
-	//i := bson.NewObjectId()
-
 	err = collection.Insert(data)
 	if err != nil {
 		return "", err
 	}
-	//collection.FindId(i).One(&user)
-	//fmt.Println(i)
-	//fmt.Println(user)
-	//err = collection.Find(bson.M{"ID": data.ID}).One(&user)
-	//checkFmt(err)
 
 	lookup := &LookUp{
 		Provider:       socialProvider,
 		IdFromProvider: data.ID,
-		UserId:         data._id,
+		UserId:         data.UserID,
 	}
 	fmt.Println(data)
 	err = lookUpSession.Insert(lookup)
+
 	if err != nil {
 		return "error", err
 	}
-	return data._id, nil
+	return data.UserID, nil
 }
 
 //Authenticate check if user exists if not create a new user document NewUser function is called within this function. note the user struct being passed
@@ -59,10 +52,12 @@ func Authenticate(user *User, provider string) (bson.ObjectId, error) {
 	fmt.Println(user.ID)
 	fmt.Println(provider)
 
-	err = lookupCollection.Find(bson.M{"IdFromProvider": user.ID, "provider": provider}).One(&result)
+	err = lookupCollection.Find(bson.M{"idfromprovider": user.ID, "provider": provider}).One(&result)
 	checkFmt(err)
+	fmt.Println("next line")
+	fmt.Println(result)
 
-	if result.UserId != "" {
+	if result.Provider != "" {
 		return result.UserId, nil
 	}
 
@@ -80,7 +75,9 @@ func UpdateUser(data *User, id string) error {
 	defer session.Close()
 
 	collection := session.DB(MONGODB).C("users")
-	query := bson.ObjectIdHex(id)
+	query := bson.M{
+		"userid": bson.ObjectIdHex(id),
+	}
 	change := bson.M{"$set": data}
 
 	err = collection.Update(query, change)
@@ -103,8 +100,10 @@ func GetProfile(id string) (User, error) {
 	}
 	defer session.Close()
 	collection := session.DB(MONGODB).C("users")
-
-	err = collection.FindId(bson.ObjectIdHex(id)).One(&result)
+	query := bson.M{
+		"userid": bson.ObjectIdHex(id),
+	}
+	err = collection.Find(query).One(&result)
 	if err != nil {
 		return result, err
 	}
@@ -204,7 +203,11 @@ func AddBookmark(bookmark *BookMark, id string) error {
 	}
 	defer session.Close()
 	userCollection := session.DB(MONGODB).C("users")
-	query := bson.ObjectIdHex(id)
+
+	query := bson.M{
+		"userid": bson.ObjectIdHex(id),
+	}
+
 	change := bson.M{"$push": bson.M{"Bookmarks": bookmark}}
 	err = userCollection.Update(query, change)
 	if err != nil {
@@ -223,7 +226,12 @@ func GetBookmarks(id string) ([]User, error) {
 	}
 	defer session.Close()
 	userCollection := session.DB(MONGODB).C("users")
-	err = userCollection.FindId(bson.ObjectIdHex(id)).Select(bson.M{"Bookmarks": 1}).All(&result)
+
+	query := bson.M{
+		"userid": bson.ObjectIdHex(id),
+	}
+
+	err = userCollection.Find(query).Select(bson.M{"Bookmarks": 1}).All(&result)
 	if err != nil {
 		return result, err
 	}
@@ -254,7 +262,7 @@ func AddComment(comment *Comment, id string) error {
 
 //Search takes a location and a search query and returns a slice of structs that
 //match the query
-func Search(location string, query string, count int, page int, perPage int) ([]Skill, Page, error) {
+func Search(location string, query string, page int, perPage int) ([]Skill, Page, error) {
 	var Results []Skill
 	var Page Page
 	session, err := mgo.Dial(MONGOSERVER)
@@ -285,8 +293,15 @@ func Search(location string, query string, count int, page int, perPage int) ([]
 		},
 	)
 
+	count, err := q.Count()
+
+	if err != nil {
+		checkFmt(err)
+	}
+
 	//SearchPagination gives us a struct that tells us if the data has a
 	//next page or previous page, as well as the page number
+
 	Page = SearchPagination(count, page, perPage)
 
 	err = q.Limit(perPage).Skip(Page.Skip).All(&Results)

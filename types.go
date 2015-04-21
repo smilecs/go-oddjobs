@@ -6,7 +6,7 @@ import (
 
 //User would hold the user data for retrieving and sending items to the database
 type User struct {
-	_id       bson.ObjectId
+	UserID    bson.ObjectId
 	Name      string
 	ID        string
 	About     string
@@ -26,6 +26,7 @@ type Skill struct {
 	SkillName   string
 	UserName    string
 	Tags        []string
+	Phone       string
 	UserID      string
 	Location    string
 	Address     string
@@ -75,5 +76,6 @@ type Page struct {
 type BookMark struct {
 	Name      string
 	SkillName string
-	id        string
+	Id        string
+	Phone     string
 }
