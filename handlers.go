@@ -141,7 +141,14 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 
 		checkFmt(err)
 		fmt.Println(user)
-
+		
+		
+    session.Values["email"] = user.Email
+    session.Values["name"] = user.Name
+	
+	
+	err = session.Save(r, w)
+	checkFmt(err)
 		err = UpdateUser(&user, id)
 		checkFmt(err)
 	}
