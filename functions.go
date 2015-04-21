@@ -53,7 +53,7 @@ func Authenticate(user *User, provider string) (bson.ObjectId, error) {
 	fmt.Println(user.ID)
 	fmt.Println(provider)
 
-	err = lookupCollection.Find(bson.M{"IdFromProvider": user.ID, "provider": provider}).One(&result)
+	err = lookupCollection.Find(bson.M{"idfromprovider": user.ID, "provider": provider}).One(&result)
 	checkFmt(err)
 	fmt.Println("next line")
 	fmt.Println(result)
