@@ -33,6 +33,8 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 		UserId:         data.UserID,
 	}
 	fmt.Println(data)
+	fmt.Println("struct")
+	fmt.Println(lookup)
 	err = lookUpSession.Insert(lookup)
 
 	if err != nil {
@@ -58,6 +60,7 @@ func Authenticate(user *User, provider string) (bson.ObjectId, error) {
 	checkFmt(err)
 	fmt.Println("next line")
 	fmt.Println(result)
+	fmt.Println(user)
 
 	if result.Provider != "" {
 		return result.UserId, nil
