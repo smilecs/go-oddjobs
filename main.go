@@ -91,7 +91,7 @@ func main() {
 	// http.HandleFunc("/logout", Logout)
 	http.HandleFunc("/profile/", ProfileHandler)
 	http.HandleFunc("/login", Login)
-	http.HandleFunc("/s/", SearchHandlerWeb)
+	http.HandleFunc("/s/", SearchHandler)
 	http.HandleFunc("/", HomeHandler)
 
 	fmt.Println("serving on http://localhost:" + PORT)
