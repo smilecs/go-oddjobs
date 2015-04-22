@@ -214,6 +214,7 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 
 		err = json.Unmarshal(hah, &skill)
 
+		fmt.Println(skill)
 		checkFmt(err)
 
 		err = AddSkill(&skill)
