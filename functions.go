@@ -121,8 +121,12 @@ func AddSkill(data *Skill) error {
 	defer session.Close()
 
 	skillCollection := session.DB(MONGODB).C("skills")
-
-	err = skillCollection.Insert(data)
+	if data.Id == "" {
+		data.Id = bson.NewObjectId()
+	} else {
+		date.Id = bson.ObjectIdHex(data.Id)
+	}
+	err = skillCollection.UpsertId(data.Id, data)
 	if err != nil {
 		return err
 	}
