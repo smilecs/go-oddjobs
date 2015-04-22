@@ -22,7 +22,7 @@ type User struct {
 //Skill struct holds skill data to be used for adding and retrieving user skills
 //from the database
 type Skill struct {
-	Id          bson.ObjectId `json:"_id" bson:"_id,omitempty"`
+	Id          bson.ObjectId `json:"_id,omitempty" bson:"_id,omitempty"`
 	SkillName   string    `json:"SkillName"`
 	UserName    string    `json:"UserName"`
 	Tags        []string  `json:"Tags"`

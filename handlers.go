@@ -208,9 +208,11 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 		skill := Skill{}
 
 		err = json.Unmarshal(hah, &skill)
-		fmt.Println(hah)
-		fmt.Println(skill)
+		//fmt.Println(hah)
+		//fmt.Println(skill)
 		checkFmt(err)
+
+		skill.UserID = id
 
 		err = AddSkill(&skill)
 		checkFmt(err)
