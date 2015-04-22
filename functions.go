@@ -124,7 +124,7 @@ func AddSkill(data *Skill) error {
 	if data.Id == "" {
 		data.Id = bson.NewObjectId()
 	}
-	err = skillCollection.UpsertId(data.Id, data)
+	_, err = skillCollection.UpsertId(data.Id, data)
 	if err != nil {
 		return err
 	}
