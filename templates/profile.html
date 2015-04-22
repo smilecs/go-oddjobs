@@ -204,7 +204,6 @@
             profileEdit: function(){
                 console.log("profile edit");
 
-               
                 var profileData = new profile.Model({});
                 var profileView = new profile.View({model:profileData});
                 profileData.on('sync', profileView.render, profileView);
