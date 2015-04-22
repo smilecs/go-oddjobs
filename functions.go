@@ -60,6 +60,7 @@ func Authenticate(user *User, provider string) (bson.ObjectId, error) {
 	checkFmt(err)
 	fmt.Println("next line")
 	fmt.Println(result)
+	fmt.Println(user)
 
 	if result.Provider != "" {
 		return result.UserId, nil
