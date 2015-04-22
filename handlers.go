@@ -54,7 +54,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "search-results.html", data)
 }
 
-//SearchHandler serves the search results page based on a search query from the
+//SingleHandlerWeb serves the search results page based on a search query from the
 //index page or any search box
 func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 	/*r.ParseForm()
@@ -141,14 +141,12 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 
 		checkFmt(err)
 		fmt.Println(user)
-		
-		
-    session.Values["email"] = user.Email
-    session.Values["name"] = user.Name
-	
-	
-	err = session.Save(r, w)
-	checkFmt(err)
+
+		session.Values["email"] = user.Email
+		session.Values["name"] = user.Name
+
+		err = session.Save(r, w)
+		checkFmt(err)
 		err = UpdateUser(&user, id)
 		checkFmt(err)
 	}
@@ -179,29 +177,21 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 	hah, err := ioutil.ReadAll(r.Body)
 	checkFmt(err)
 
+	session, err := store.Get(r, "user")
+	checkFmt(err)
+	fmt.Println(session.Values["id"])
+
+	id := session.Values["id"].(string)
+
 	fmt.Println(string(hah))
+
 	if r.Method == "GET" {
 		fmt.Println("get request")
 
 		skills := []Skill{}
 
-		skill1 := Skill{
-			SkillName:   "Electrician",
-			Tags:        []string{"tech", "farm"},
-			Location:    "Calabar",
-			Address:     "QC 28 unical staff quaters",
-			Description: "dasfklsdgf sdflksd fdsf sd",
-		}
-		skill2 := Skill{
-			SkillName:   "Programmer",
-			Tags:        []string{"code"},
-			Location:    "Aba",
-			Address:     "QC 20 aba town",
-			Description: "sdfdsf sdf sd f dsf ds gf sd  sdfds",
-		}
-
-		skills = append(skills, skill1)
-		skills = append(skills, skill2)
+		skills, err := GetSkills(id)
+		checkFmt(err)
 
 		x, err := json.Marshal(skills)
 		fmt.Print(string(x))
