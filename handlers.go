@@ -78,7 +78,27 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		Data:  skill,
 	}
 	renderTemplate(w, "single.html", data)*/
-	renderTemplate(w, "single.html", "")
+	
+	URL := strings.Split(r.URL.Path, "/")
+	slug := URL[2]
+	fmt.Println(slug)
+
+	skill, err := GetSkillBySlug(slug)
+	checkFmt(err)
+
+	type datastruct struct {
+		User  LoginDataStruct
+		FBURL string
+		Data  Skill
+	}
+
+	data := datastruct{
+		User:  LoginData(r),
+		FBURL: FBURL,
+		Data:  skill,
+	}
+	
+	renderTemplate(w, "single.html", data)
 }
 
 //ProfileHandler might be remove later, its just to test redirection and profile

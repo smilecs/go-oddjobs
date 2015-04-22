@@ -137,7 +137,7 @@ func AddSkill(data *Skill) error {
 		data.Id = bson.NewObjectId()
 	}
 
-	slug.Slug(data.SkillName + " " + data.Location + " " + randSeq(5))
+	slug.Slug(data.SkillName + " " + randSeq(5))
 
 	_, err = skillCollection.UpsertId(data.Id, data)
 	if err != nil {
@@ -182,6 +182,34 @@ func GetSkill(id string) (Skill, error) {
 	skillCollection := session.DB(MONGODB).C("skills")
 
 	err = skillCollection.FindId(bson.ObjectIdHex(id)).Select(bson.M{"comments": 0}).One(&result)
+	if err != nil {
+		return result, err
+	}
+
+	return result, nil
+
+}
+
+//GetSkillBySlug return a single skill document
+func GetSkillBySlug(slug string) (Skill, error) {
+	session, err := mgo.Dial(MONGOSERVER)
+
+	result := Skill{}
+
+	if err != nil {
+		return result, err
+	}
+
+	defer session.Close()
+
+	skillCollection := session.DB(MONGODB).C("skills")
+  
+  
+  q := bson.M{
+    "slug":slug,
+  }
+  
+	err = skillCollection.Find(q).Select(bson.M{"comments": 0}).One(&result)
 	if err != nil {
 		return result, err
 	}
