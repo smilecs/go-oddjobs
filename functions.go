@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 
+	"github.com/extemporalgenome/slug"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -112,6 +114,16 @@ func GetProfile(id string) (User, error) {
 	return result, nil
 }
 
+var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func randSeq(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letters[rand.Intn(len(letters))]
+	}
+	return string(b)
+}
+
 //AddSkill adds a skill to the collection
 func AddSkill(data *Skill) error {
 	session, err := mgo.Dial(MONGOSERVER)
@@ -123,8 +135,13 @@ func AddSkill(data *Skill) error {
 	defer session.Close()
 
 	skillCollection := session.DB(MONGODB).C("skills")
+	if data.Id == "" {
+		data.Id = bson.NewObjectId()
+	}
 
-	err = skillCollection.Insert(data)
+	slug.Slug(data.SkillName + " " + data.Location + " " + randSeq(5))
+
+	_, err = skillCollection.UpsertId(data.Id, data)
 	if err != nil {
 		return err
 	}
@@ -307,6 +324,9 @@ func Search(location string, query string, page int, perPage int) ([]Skill, Page
 	Page = SearchPagination(count, page, perPage)
 
 	err = q.Limit(perPage).Skip(Page.Skip).All(&Results)
+
+	fmt.Println(Results)
+
 	if err != nil {
 		return Results, Page, err
 	}

@@ -54,7 +54,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	renderTemplate(w, "search-results.html", data)
 }
 
-//SearchHandler serves the search results page based on a search query from the
+//SingleHandlerWeb serves the search results page based on a search query from the
 //index page or any search box
 func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 	/*r.ParseForm()
@@ -142,11 +142,17 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 		checkFmt(err)
 		fmt.Println(user)
 
+		session.Values["email"] = user.Email
+		session.Values["name"] = user.Name
+
+		err = session.Save(r, w)
+		checkFmt(err)
 		err = UpdateUser(&user, id)
 		checkFmt(err)
 	}
 }
 
+//Login ish
 func Login(w http.ResponseWriter, r *http.Request) {
 	session, err := store.Get(r, "current")
 	if err != nil {
@@ -168,32 +174,19 @@ func Login(w http.ResponseWriter, r *http.Request) {
 func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-	hah, err := ioutil.ReadAll(r.Body)
+	session, err := store.Get(r, "user")
 	checkFmt(err)
+	fmt.Println(session.Values["id"])
 
-	fmt.Println(string(hah))
+	id := session.Values["id"].(string)
+
 	if r.Method == "GET" {
 		fmt.Println("get request")
 
 		skills := []Skill{}
 
-		skill1 := Skill{
-			SkillName:   "Electrician",
-			Tags:        []string{"tech", "farm"},
-			Location:    "Calabar",
-			Address:     "QC 28 unical staff quaters",
-			Description: "dasfklsdgf sdflksd fdsf sd",
-		}
-		skill2 := Skill{
-			SkillName:   "Programmer",
-			Tags:        []string{"code"},
-			Location:    "Aba",
-			Address:     "QC 20 aba town",
-			Description: "sdfdsf sdf sd f dsf ds gf sd  sdfds",
-		}
-
-		skills = append(skills, skill1)
-		skills = append(skills, skill2)
+		skills, err := GetSkills(id)
+		checkFmt(err)
 
 		x, err := json.Marshal(skills)
 		fmt.Print(string(x))
@@ -207,6 +200,37 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 		}
 
+	} else if r.Method == "POST" {
+		fmt.Println("post request")
+		hah, err := ioutil.ReadAll(r.Body)
+		checkFmt(err)
+
+		skill := Skill{}
+
+		err = json.Unmarshal(hah, &skill)
+		//fmt.Println(hah)
+		//fmt.Println(skill)
+		checkFmt(err)
+
+		skill.UserID = id
+
+		err = AddSkill(&skill)
+		checkFmt(err)
+
+		/*
+			x, err := json.Marshal(skills)
+			fmt.Print(string(x))
+			if err != nil {
+				fmt.Println(err)
+			}
+			w.Header().Set("Content-Type", "application/json")
+			_, err = w.Write(x)
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+		*/
 	}
 
 }
