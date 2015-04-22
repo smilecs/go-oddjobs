@@ -63,8 +63,8 @@
 
           <div class="col-md-9 main-left">
               <div class="heading">
-                  <h1> 
-                      <span class="bold-head">Bla bla Bla</span>
+                  <h1>
+                      <span class="bold-head">{{.Data.Name}}</span>
 
                   <div class="pull-right">
                       <small><strong>1000</strong> votes</small>
@@ -73,7 +73,7 @@
                     <div style="clear:both"></div>
 
                   </h1>
-            </div> 
+            </div>
             
             
             <div class="toolbar">
@@ -84,7 +84,7 @@
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-default
-                        dropdown-toggle" data-toggle="dropdown"> 
+                        dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-share"></i> <span class="caret"></span>
                          </button>
                         <ul class="dropdown-menu">
@@ -93,7 +93,7 @@
                         </ul>
                     </div>
                     <span class="btn">
-                       Your rating  
+                       Your rating
                     </span>
                 </div>
             </div>
@@ -102,8 +102,8 @@
             <div class="">
                 <div class="col-md-3 side">
                     <div class="bold-head">
-                        <span>098744357867</span><br/>
-                        <span>asdasf@ds.ds</span><br/>
+                        <span>{{.Data.Phone}}</span><br/>
+                        <span>{{.User.Email}}</span><br/>
                     </div>
                         <br/>
                         <br/><br/><br/>
@@ -152,21 +152,25 @@
                        <!--reviews begin here-->
                        <div>
                            <div class="review-heading">
-                               <a href="#" class="active"><strong>Popular Reviews
-                                       <small>309</small></strong>  </a>
+                               <a href="#" class="active">
+                                 <strong>Popular Reviews
+                                       <small>309</small></strong>
+                                </a>
 
 
                                &nbsp;&nbsp;&nbsp;
                                <a href="#">
                                    <strong>All Reviews
-                                       <small>697</small></strong>
+                                       <small>697</small>
                                    </strong>
-                                </strong>
+                                </a>
 
                                 <a class=" pull-right btn btn-xs btn-default"
                                    style="border-bottom:0 solid
-                                   transparent"><small>Date <i class="fa
-                                   fa-arrow-down"></i></small></a>
+                                   transparent">
+                                  <small>Date <i class="fa
+                                   fa-arrow-down"></i></small>
+                                </a>
                                 <div style="clear:both"></div>
                            </div><!--reviews end here -->
                             
@@ -189,7 +193,7 @@
                                           btn-xs "
                                            style="display:inline-block;">
                                            <i class="fa fa-user-plus"></i> </a>
-                                       <div style="clear:both"></div> 
+                                       <div style="clear:both"></div>
                             
                                    </div><!-- well ends here -->
                                    
