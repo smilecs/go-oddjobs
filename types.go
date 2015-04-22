@@ -23,15 +23,15 @@ type User struct {
 //from the database
 type Skill struct {
 	Id          bson.ObjectId `json:"_id" bson:"_id,omitempty"`
-	SkillName   string
-	UserName    string
-	Tags        []string
-	Phone       string
-	UserID      string
-	Location    string
-	Address     string
-	Price       string
-	Description string
+	SkillName   string    `json:"SkillName"`
+	UserName    string    `json:"UserName"`
+	Tags        []string  `json:"Tags"`
+	Phone       string    `json:"Phone"`
+	UserID      string `json:"UserID"`
+	Location    string    `json:"Location"`
+	Address     string  `json:"Address"`
+	Price       string  `json:"Price"`
+	Description string  `json:"Description"`
 	Comments    []Comment
 	Rating      int
 }
