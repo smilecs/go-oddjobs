@@ -205,6 +205,34 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println(err)
 		}
 
+	} else if r.Method == "POST" {
+		fmt.Println("post request")
+		hah, err := ioutil.ReadAll(r.Body)
+		checkFmt(err)
+
+		skill := Skill{}
+
+		err = json.Unmarshal(hah, &skill)
+
+		checkFmt(err)
+
+		err = AddSkill(&skill)
+		checkFmt(err)
+
+		/*
+			x, err := json.Marshal(skills)
+			fmt.Print(string(x))
+			if err != nil {
+				fmt.Println(err)
+			}
+			w.Header().Set("Content-Type", "application/json")
+			_, err = w.Write(x)
+
+			if err != nil {
+				fmt.Println(err)
+			}
+
+		*/
 	}
 
 }
