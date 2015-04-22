@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	//"strings"
 )
 
@@ -78,7 +79,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		Data:  skill,
 	}
 	renderTemplate(w, "single.html", data)*/
-	
+
 	URL := strings.Split(r.URL.Path, "/")
 	slug := URL[2]
 	fmt.Println(slug)
@@ -97,7 +98,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		FBURL: FBURL,
 		Data:  skill,
 	}
-	
+
 	renderTemplate(w, "single.html", data)
 }
 
