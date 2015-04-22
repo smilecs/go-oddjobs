@@ -58,33 +58,13 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 //SingleHandlerWeb serves the search results page based on a search query from the
 //index page or any search box
 func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
-	/*r.ParseForm()
-	//id := r.FormValue("id")
 
 	URL := strings.Split(r.URL.Path, "/")
-	id := URL[2]
-
-	skill, err := GetSkill(id)
-	checkFmt(err)
-
-	type datastruct struct {
-		User  LoginDataStruct
-		FBURL string
-		Data  Skill
-	}
-
-	data := datastruct{
-		User:  LoginData(r),
-		FBURL: FBURL,
-		Data:  skill,
-	}
-	renderTemplate(w, "single.html", data)*/
-
-	URL := strings.Split(r.URL.Path, "/")
-	slug := URL[2]
+	location := URL[2]
+	slug := URL[3]
 	fmt.Println(slug)
 
-	skill, err := GetSkillBySlug(slug)
+	skill, err := GetSkillBySlug(slug,location)
 	checkFmt(err)
 
 	type datastruct struct {

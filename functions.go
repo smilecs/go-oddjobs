@@ -194,7 +194,7 @@ func GetSkill(id string) (Skill, error) {
 }
 
 //GetSkillBySlug return a single skill document
-func GetSkillBySlug(slug string) (Skill, error) {
+func GetSkillBySlug(slug string, location string) (Skill, error) {
 	session, err := mgo.Dial(MONGOSERVER)
 
 	result := Skill{}
@@ -209,6 +209,7 @@ func GetSkillBySlug(slug string) (Skill, error) {
 
 	q := bson.M{
 		"slug": slug,
+		"location":location,
 	}
 
 	err = skillCollection.Find(q).Select(bson.M{"comments": 0}).One(&result)
