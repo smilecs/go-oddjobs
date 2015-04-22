@@ -31,6 +31,8 @@ func NewUser(data *User, socialProvider string) (bson.ObjectId, error) {
 		UserId:         data.UserID,
 	}
 	fmt.Println(data)
+	fmt.Println("struct")
+	fmt.Println(lookup)
 	err = lookUpSession.Insert(lookup)
 
 	if err != nil {
