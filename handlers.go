@@ -174,9 +174,6 @@ func Login(w http.ResponseWriter, r *http.Request) {
 func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-	hah, err := ioutil.ReadAll(r.Body)
-	checkFmt(err)
-
 	session, err := store.Get(r, "user")
 	checkFmt(err)
 	fmt.Println(session.Values["id"])
