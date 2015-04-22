@@ -63,20 +63,20 @@
             style="display:table-cell;vertical-align:middle;width:100%;text-align:center;">
             <h1>Need Someone to get that Job Done?<br/><small>Your search begins here</small></h1>
             
-          <div class="ghost-btn-group" style="text-align:center">
+          <form class="ghost-btn-group" style="text-align:center" method="GET" action="/s/">
               <div class=" location">
                   <span class=""><i class="fa fa-map-marker"></i></span>
-                  <input type="text" class=""  placeholder="Calabar, etc"/>
+                  <input type="text" class="" name="l" placeholder="Calabar, etc"/>
         
               </div>
               <div class="query">
                   <span class=""><i class="fa fa-search"></i></span>
-                  <input type="text" class="" placeholder="Electrician, etc"/>
+                  <input type="text" class="" name="q" placeholder="Electrician, etc"/>
             </div>
          
-          <button class=" searchbtn">search</i></button>
+          <input type="submit" class=" searchbtn" value="search">
  
-          </div>
+          </form>
 
           <br/><br/>
          
@@ -84,7 +84,7 @@
         </div>
         <br/>
                <div style="clear:both"></div>
-               <nav style=display:block;"width:100%;">
+               <nav style="display:block;width:100%;">
             
             <div align="center">
                 <a href="#home"  class="down-arrow"><i class="fa
