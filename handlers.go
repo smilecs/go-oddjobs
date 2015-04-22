@@ -183,8 +183,6 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 
 	id := session.Values["id"].(string)
 
-	fmt.Println(string(hah))
-
 	if r.Method == "GET" {
 		fmt.Println("get request")
 
@@ -213,7 +211,7 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 		skill := Skill{}
 
 		err = json.Unmarshal(hah, &skill)
-
+		fmt.Println(hah)
 		fmt.Println(skill)
 		checkFmt(err)
 
