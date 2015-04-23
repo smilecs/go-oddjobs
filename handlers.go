@@ -97,7 +97,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		checkFmt(err)
 		s, err := strconv.Atoi(rate)
 		checkFmt(err)
-		id := session.Values["Id"].(string)
+		id := session.Values["id"].(string)
 		rr := Review{
 			Comment: review,
 			Rating:  s,
