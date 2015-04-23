@@ -86,7 +86,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		  fmt.Println("POSTED review")
 		  r.ParseForm()
 		  
-		  rate := r.FormValue["rating")
+		  rate := r.FormValue["rating"]
 		  fmt.Println(rate)
 		  
 		  review := r.FormValue["description"]
