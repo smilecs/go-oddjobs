@@ -332,9 +332,6 @@ func Search(location string, query string, page int, perPage int) ([]Skill, Page
 		q = skillCollection.Find(
 			bson.M{
 				"location": location,
-				"$text": bson.M{
-					"$search": query,
-				},
 			},
 		)
 
