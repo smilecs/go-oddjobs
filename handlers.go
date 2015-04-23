@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
+
+	"github.com/gorilla/sessions"
 	//"strings"
 )
 
@@ -92,6 +95,22 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		review := r.FormValue("description")
 		fmt.Println(review)
 
+		session, err := store.Get(r, "user")
+		checkFmt(err)
+		s, err := strconv.Atoi(rate)
+		checkFmt(err)
+		id := session.Values["id"].(string)
+		rr := Review{
+			Comment: review,
+			Rating:  s,
+			Id:      id,
+		}
+
+		fmt.Println(rr)
+
+		err = AddReview(&rr)
+		checkFmt(err)
+		http.Redirect(w, r, r.URL.String(), http.StatusFound)
 	}
 }
 
@@ -179,9 +198,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, FBURL, http.StatusFound)
 }
 
-/*func Logout(w http.ResponseWriter, r *http.Request){
-
-}*/
+//Logout dsfsdgs
+func Logout(w http.ResponseWriter, r *http.Request) {
+	session, err := store.Get(r, "user")
+	checkFmt(err)
+	session.Options = &sessions.Options{MaxAge: -1, Path: "/"}
+	session.Save(r, w)
+	http.Redirect(w, r, "/", http.StatusFound)
+}
 
 //SkillsHandler would return list of skills via json, and suport editing and
 //addition of new skills
@@ -230,6 +254,7 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 
 		err = AddSkill(&skill)
 		checkFmt(err)
+		http.Redirect(w, r, r.URL.String(), 301)
 
 		/*
 			x, err := json.Marshal(skills)
