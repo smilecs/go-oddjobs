@@ -24,10 +24,31 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println(user)
-	i, _ := Authenticate(user, r.FormValue("provider"))
-	i2, _ := json.Marshal(i)
+	i, err := Authenticate(user, r.FormValue("provider"))
+	checkFmt(err)
+
+	fmt.Println("authenticate returns:")
+	fmt.Println(i)
+
+	type aaa struct {
+		Id string
+		Im string
+	}
+
+	x := aaa{
+		Id: i.Hex(),
+		Im: i.Hex(),
+	}
+
+	fmt.Println("reurn s")
+	fmt.Println(x)
+	//u, _ := i.MarshalJSON()
+	u, err := json.Marshal(x)
+	checkFmt(err)
+	fmt.Println(u)
+
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(i2)
+	w.Write(u)
 }
 
 //UserProfileHandler serves the profile
