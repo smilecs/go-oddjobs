@@ -68,7 +68,7 @@ func UserProfileHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(data)
 	case "POST":
-		user := &User{
+		user := User{
 			Location: r.FormValue("location"),
 			About:    r.FormValue("about"),
 			Address:  r.FormValue("address"),
@@ -76,7 +76,7 @@ func UserProfileHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		fmt.Println(user)
 		fmt.Println(r.FormValue("location"))
-		UpdateUser(user, id)
+		UpdateUser(&user, id)
 	}
 }
 

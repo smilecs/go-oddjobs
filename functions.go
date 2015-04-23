@@ -208,8 +208,8 @@ func GetSkillBySlug(slug string, location string) (Skill, error) {
 	skillCollection := session.DB(MONGODB).C("skills")
 
 	q := bson.M{
-		"slug": slug,
-		"location":location,
+		"slug":     slug,
+		"location": location,
 	}
 
 	err = skillCollection.Find(q).Select(bson.M{"comments": 0}).One(&result)
