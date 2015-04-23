@@ -33,12 +33,12 @@ type Skill struct {
 	Address     string   `json:"Address"`
 	Price       string   `json:"Price"`
 	Description string   `json:"Description"`
-	Comments    []Comment
 	Rating      int
 }
 
-//Comment holds comment data
-type Comment struct {
+//Review holds comment data
+type Review struct {
+  Id      string
 	Name    string
 	Email   string
 	Comment string
