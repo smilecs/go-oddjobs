@@ -104,7 +104,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 			Id:      session.Values["Id"].(string),
 		}
 
-		AddReview(rr)
+		AddReview(&rr)
 	}
 }
 
