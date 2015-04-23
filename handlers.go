@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 	//"strings"
 )
 
@@ -57,13 +58,13 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 //SingleHandlerWeb serves the search results page based on a search query from the
 //index page or any search box
 func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
-	/*r.ParseForm()
-	//id := r.FormValue("id")
 
 	URL := strings.Split(r.URL.Path, "/")
-	id := URL[2]
+	location := URL[2]
+	slug := URL[3]
+	fmt.Println(slug)
 
-	skill, err := GetSkill(id)
+	skill, err := GetSkillBySlug(slug,location)
 	checkFmt(err)
 
 	type datastruct struct {
@@ -77,8 +78,8 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		FBURL: FBURL,
 		Data:  skill,
 	}
-	renderTemplate(w, "single.html", data)*/
-	renderTemplate(w, "single.html", "")
+
+	renderTemplate(w, "single.html", data)
 }
 
 //ProfileHandler might be remove later, its just to test redirection and profile

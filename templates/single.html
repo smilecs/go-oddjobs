@@ -38,24 +38,7 @@
     <link rel="stylesheet" href="/assets/styles/main.css">
   </head>
   <body class="search-results">
-    <header >
-        <nav class="navigation" align="right">
-
-          <div class="input-group  nav-search" style="text-align:center">
-              <span class="input-group-addon"><i class="fa fa-search"></i></span>
-              <input type="text" class="input input-lg"  placeholder="Search ex. Electricians in Calabar"/>
-            </div>
-          <ul>
-            
-            <li ><a class="active"><i class="fa fa-home"></i> Home</a></li>
-            <li><a><img class="img-circle img-ppic" src="images/ppic.jpg"/> Anthony Alaribe</a></li>
-            <li><a><i class="fa fa-unlock" ></i> logout</a></li>
-          </ul>
-          <div style="clear:both"></div>
-
-        </nav>
-        <div style="clear:both"></div>
-    </header>
+   {{ template "header" .}}
 
     <main class="search-main container">
 
@@ -63,8 +46,8 @@
 
           <div class="col-md-9 main-left">
               <div class="heading">
-                  <h1> 
-                      <span class="bold-head">Bla bla Bla</span>
+                  <h1>
+                      <span class="bold-head">{{.Data.SkillName}}</span>
 
                   <div class="pull-right">
                       <small><strong>1000</strong> votes</small>
@@ -73,7 +56,7 @@
                     <div style="clear:both"></div>
 
                   </h1>
-            </div> 
+            </div>
             
             
             <div class="toolbar">
@@ -84,7 +67,7 @@
 
                     <div class="btn-group">
                         <button type="button" class="btn btn-default
-                        dropdown-toggle" data-toggle="dropdown"> 
+                        dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-share"></i> <span class="caret"></span>
                          </button>
                         <ul class="dropdown-menu">
@@ -92,8 +75,20 @@
                             <li><a  href="#">Dropdown  link</a></li>
                         </ul>
                     </div>
-                    <span class="btn">
-                       Your rating  
+                    
+                    <span class="btn" style="padding:0;">
+                      
+                       <div class="rating-a">
+                        <select id="rate">
+                           <option value="1">1</option>
+                           <option value="2">2</option>
+                           <option value="3">3</option>
+                           <option value="4">4</option>
+                           <option value="5">5</option>
+                        </select>
+                      </div>
+                      
+                      
                     </span>
                 </div>
             </div>
@@ -102,8 +97,8 @@
             <div class="">
                 <div class="col-md-3 side">
                     <div class="bold-head">
-                        <span>098744357867</span><br/>
-                        <span>asdasf@ds.ds</span><br/>
+                        <span>{{.Data.Phone}}</span><br/>
+                        <span>{{.User.User.Email}}</span><br/>
                     </div>
                         <br/>
                         <br/><br/><br/>
@@ -147,7 +142,31 @@
                     
                    <div class="reviews">
                        <h3>Reviews</h3>
-                       <textarea rows="5" placeholder="Write a Review"></textarea>
+                       
+                       <form class="new-review" method="POST">
+                           <span>Your Rating</span>
+                           <div class="rating-b">
+                              <select id="new-rate">
+                                 <option value="1">1</option>
+                                 <option value="2">2</option>
+                                 <option value="3">3</option>
+                                 <option value="4">4</option>
+                                 <option value="5">5</option>
+                              </select>
+                            </div>
+                            
+                            <br/>
+                            
+                            <textarea rows="6" placeholder="Write a Review"></textarea>
+                            <br/><br/>
+                            <div>
+                              <!--<button class="btn btn-success pull-right">Submit Review</button>-->
+                              <input type="submit" class="btn btn-success pull-right" value="Submit Review">
+                            </div>
+                            <div style="clear:both"></div>
+                       </form>
+                       
+                       
                        <br/><br/><br/>
                        <!--reviews begin here-->
                        <div>
@@ -159,9 +178,9 @@
                                &nbsp;&nbsp;&nbsp;
                                <a href="#">
                                    <strong>All Reviews
-                                       <small>697</small></strong>
+                                       <small>697</small>
                                    </strong>
-                                </strong>
+                                </a>
 
                                 <a class=" pull-right btn btn-xs btn-default"
                                    style="border-bottom:0 solid
@@ -173,68 +192,66 @@
                            <!--Comment group begins here-->
                            
                            <div class="comment-group">
-                                
-                               <div class="comment"><!--comment instance-->
-                                   <div class="well well-sm">
-                                       <img class="img-circle pull-left"
-                                            style="width:40px;height:40px;"  src="images/ppic.jpg"/>
-                                       <span style="display:inline-block;
-                                           padding-left:6px;">
-                                           <strong>Anthony Alaribe</strong><br/>
-                                           <small> 19 reviews, 35
-                                               Followers</small>
-                                       </span>
-                                            
-                                       <a class="pull-right btn btn-success
-                                          btn-xs "
-                                           style="display:inline-block;">
-                                           <i class="fa fa-user-plus"></i> </a>
-                                       <div style="clear:both"></div> 
-                            
-                                   </div><!-- well ends here -->
-                                   
-                                   <div class="review-top-row">
-                                       <strong>Rated</strong> sad &nbsp;&nbsp;<small>7 days
-                                       ago</small>
-                                    
-                                       <a class=" btn btn-xs btn-default
-                                       pull-right" href="#"><i class="fa
-                                       fa-heart"></i> like <span
-                                       class="badge">22</span> </a>
+                               <!--comment instance-->
+                     
+<div class="comment">
+               <div class="well well-sm">
+                   <img class="img-circle pull-left"
+                        style="width:40px;height:40px;"  src="images/ppic.jpg"/>
+                   <span style="display:inline-block;
+                       padding-left:6px;">
+                       <strong>Anthony Alaribe</strong><br/>
+                       <small> 19 reviews, 35
+                           Followers</small>
+                   </span>
+                        
+                   <a class="pull-right btn btn-success
+                      btn-xs "
+                       style="display:inline-block;">
+                       <i class="fa fa-user-plus"></i> </a>
+                   <div style="clear:both"></div>
+        
+               </div><!-- well ends here -->
+               
+               <div class="review-top-row">
+                   <strong>Rated</strong> sad &nbsp;&nbsp;<small>7 days
+                   ago</small>
+                
+                   <a class=" btn btn-xs btn-default
+                   pull-right" href="#"><i class="fa
+                   fa-heart"></i> like <span
+                   class="badge">22</span> </a>
 
-                                       <div style="clear:both;"></div>
-                                   </div>
-                                    
-                                   <div>
-                                       <p>
-                                       Cras sit amet nibh libero, in gravida
-                                       nulla. Nulla vel metus scelerisque ante
-                                       sollicitudin can sa commodo. Cras purus odio,
-                                       vestibulum in vulputate at, tempus
-                                       viverra turpis.
+                   <div style="clear:both;"></div>
+               </div>
+                
+               <div>
+                   <p>
+                   Cras sit amet nibh libero, in gravida
+                   nulla. Nulla vel metus scelerisque ante
+                   sollicitudin can sa commodo. Cras purus odio,
+                   vestibulum in vulputate at, tempus
+                   viverra turpis.
 
-                                       </p>
+                   </p>
 
-                                       <p>
-                                       Cras sit amet nibh can se ash s asd libero, in gravida
-                                       nulla. Nulla vel metus scelerisque ante
-                                       sollicitudin commodo. Cras purus odio,
-                                       vestibulum in vulputate at, tempus
-                                       viverra turpis.
+                   <p>
+                   Cras sit amet nibh can se ash s asd libero, in gravida
+                   nulla. Nulla vel metus scelerisque ante
+                   sollicitudin commodo. Cras purus odio,
+                   vestibulum in vulputate at, tempus
+                   viverra turpis.
 
-                                       </p>
+                   </p>
 
-                                   </div>
+               </div>
 
-                                   <div>
-                                                                           </div>
 
-                                   <div>
+           </div>
 
-                                   </div>
-
-                               </div><!--comment instance ends here-->
-
+          
+                               <!--comment instance ends here-->
+                               
                             </div>
 
 
@@ -247,12 +264,13 @@
                 <div style="clear:both"></div>
             </div>
     </div>
-  <div class="col-md-3">
-
+          <div class="col-md-3">
+          
           </div>
 
       </div>
       <div style="clear:both"></div>
+      </div>
     </main>
 
 
@@ -270,8 +288,10 @@
         <div>Copyright Oddjobs.com</div>
       </div>
     </footer>
+    
+    
     <!-- build:js scripts/main.min.js -->
-    <script src="/assets/scripts/main.js"></script>
+    <script src="/assets/scripts/main.min.js"></script>
     <!-- endbuild -->
 
        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
