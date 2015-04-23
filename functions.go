@@ -208,8 +208,8 @@ func GetSkillBySlug(slug string, location string) (Skill, error) {
 	skillCollection := session.DB(MONGODB).C("skills")
 
 	q := bson.M{
-		"slug": slug,
-		"location":location,
+		"slug":     slug,
+		"location": location,
 	}
 
 	err = skillCollection.Find(q).Select(bson.M{"comments": 0}).One(&result)
@@ -286,9 +286,8 @@ func GetBookmarks(id string) ([]User, error) {
 	return result, nil
 }
 
-
 //AddReview adds a comment to a skill
-func AddReview(comment *Review) error {
+func AddReview(r *Review) error {
 	session, err := mgo.Dial(MONGOSERVER)
 
 	if err != nil {
@@ -304,8 +303,6 @@ func AddReview(comment *Review) error {
 	return nil
 
 }
-
-
 
 //Search takes a location and a search query and returns a slice of structs that
 //match the query
