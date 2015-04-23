@@ -104,7 +104,9 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 			Id:      session.Values["Id"].(string),
 		}
 
-		AddReview(&rr)
+		err := AddReview(&rr)
+		checkFmt(err)
+
 	}
 }
 
@@ -243,6 +245,7 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 
 		err = AddSkill(&skill)
 		checkFmt(err)
+		http.Redirect(w, r, r.URL.String(), 301)
 
 		/*
 			x, err := json.Marshal(skills)
