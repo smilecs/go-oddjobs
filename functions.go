@@ -327,15 +327,27 @@ func Search(location string, query string, page int, perPage int) ([]Skill, Page
 	if err != nil {
 		return Results, Page, err
 	}
-
-	q := skillCollection.Find(
-		bson.M{
-			"location": location,
-			"$text": bson.M{
-				"$search": query,
+	var q *mgo.Query
+	if query == "" {
+		q = skillCollection.Find(
+			bson.M{
+				"location": location,
+				"$text": bson.M{
+					"$search": query,
+				},
 			},
-		},
-	)
+		)
+
+	} else {
+		q = skillCollection.Find(
+			bson.M{
+				"location": location,
+				"$text": bson.M{
+					"$search": query,
+				},
+			},
+		)
+	}
 
 	count, err := q.Count()
 
