@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 	"strings"
 	//"strings"
 )
@@ -92,16 +93,16 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		review := r.FormValue("description")
 		fmt.Println(review)
 
-	session, err := store.Get(r, "user")
-	checkFmt(err)
+		session, err := store.Get(r, "user")
+		checkFmt(err)
 
-    rr := Review{
-      Comment: review,
-      Rating: rate,
-      Id: session.Values["Id"].(string),
-    }
-    
-    AddReview(rr)
+		rr := Review{
+			Comment: review,
+			Rating:  strconv.Atoi(rate),
+			Id:      session.Values["Id"].(string),
+		}
+
+		AddReview(rr)
 	}
 }
 
