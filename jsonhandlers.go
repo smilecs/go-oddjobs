@@ -14,6 +14,8 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 	fmt.Println(r.Form)
+	ids := r.FormValue("ID")
+	img := "https://graph.facebook.com/" + ids + "/picture?width=180&height=180"
 	id := bson.NewObjectId()
 	//nw := strings.(id)
 	user := &User{
@@ -21,6 +23,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		ID:     r.FormValue("ID"),
 		Name:   r.FormValue("name"),
 		UserID: id,
+		Image:  img,
 	}
 
 	fmt.Println(user)
