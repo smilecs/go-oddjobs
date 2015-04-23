@@ -64,22 +64,35 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 	slug := URL[3]
 	fmt.Println(slug)
 
-	skill, err := GetSkillBySlug(slug,location)
-	checkFmt(err)
+	if r.Method == "GET" {
 
-	type datastruct struct {
-		User  LoginDataStruct
-		FBURL string
-		Data  Skill
+		skill, err := GetSkillBySlug(slug, location)
+		checkFmt(err)
+
+		type datastruct struct {
+			User  LoginDataStruct
+			FBURL string
+			Data  Skill
+		}
+
+		data := datastruct{
+			User:  LoginData(r),
+			FBURL: FBURL,
+			Data:  skill,
+		}
+
+		renderTemplate(w, "single.html", data)
+	} else if r.Method == "POST" {
+		fmt.Println("POSTED review")
+		r.ParseForm()
+
+		rate := r.FormValue("rating")
+		fmt.Println(rate)
+
+		review := r.FormValue("description")
+		fmt.Println(review)
+
 	}
-
-	data := datastruct{
-		User:  LoginData(r),
-		FBURL: FBURL,
-		Data:  skill,
-	}
-
-	renderTemplate(w, "single.html", data)
 }
 
 //ProfileHandler might be remove later, its just to test redirection and profile

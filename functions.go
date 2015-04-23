@@ -286,8 +286,8 @@ func GetBookmarks(id string) ([]User, error) {
 	return result, nil
 }
 
-//AddComment adds a comment to a skill
-func AddComment(comment *Comment, id string) error {
+//AddReview adds a comment to a skill
+func AddReview(r *Review) error {
 	session, err := mgo.Dial(MONGOSERVER)
 
 	if err != nil {
@@ -296,13 +296,9 @@ func AddComment(comment *Comment, id string) error {
 
 	defer session.Close()
 
-	skillCollection := session.DB(MONGODB).C("skills")
+	skillCollection := session.DB(MONGODB).C("reviews")
 
-	err = skillCollection.UpdateId(
-		bson.ObjectIdHex(id),
-		bson.M{
-			"$push": bson.M{"Comments": comment},
-		})
+	err = skillCollection.Insert(r)
 
 	return nil
 
