@@ -108,7 +108,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 
 		err = AddReview(&rr)
 		checkFmt(err)
-
+		http.Redirect(w, r, r.URL.String(), http.StatusFound)
 	}
 }
 
