@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+
+	"github.com/gorilla/sessions"
 	//"strings"
 )
 
@@ -196,9 +198,14 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, FBURL, http.StatusFound)
 }
 
-/*func Logout(w http.ResponseWriter, r *http.Request){
-
-}*/
+//Logout dsfsdgs
+func Logout(w http.ResponseWriter, r *http.Request) {
+	session, err := store.Get(r, "user")
+	checkFmt(err)
+	session.Options = &sessions.Options{MaxAge: -1, Path: "/"}
+	session.Save(r, w)
+	http.Redirect(w, r, "/", http.StatusFound)
+}
 
 //SkillsHandler would return list of skills via json, and suport editing and
 //addition of new skills
