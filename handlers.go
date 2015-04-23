@@ -74,8 +74,12 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
   
     skillid := SlugtoID(slug)
     
+    fmt.Println(skillid)
+    
     reviews,err := GetReviews(skillid)
     checkFmt(err)
+    
+    fmt.Println(reviews)
     
 		type datastruct struct {
 			User  LoginDataStruct
