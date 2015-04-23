@@ -104,6 +104,8 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 			Id:      session.Values["Id"].(string),
 		}
 
+		fmt.Println(rr)
+
 		err = AddReview(&rr)
 		checkFmt(err)
 
