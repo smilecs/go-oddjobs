@@ -59,6 +59,7 @@ func UserProfileHandler(w http.ResponseWriter, r *http.Request) {
 	//id := r.FormValue("id")
 	tmp := strings.Split(r.URL.Path, "/")
 	id := tmp[3]
+	fmt.Println(id)
 	switch r.Method {
 	case "GET":
 		tmp2, _ := GetProfile(id)
@@ -73,6 +74,8 @@ func UserProfileHandler(w http.ResponseWriter, r *http.Request) {
 			Address:  r.FormValue("address"),
 			Phone:    r.FormValue("phone"),
 		}
+		fmt.Println(user)
+		fmt.Println(r.FormValue("location"))
 		UpdateUser(user, id)
 	}
 }
