@@ -92,6 +92,16 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		review := r.FormValue("description")
 		fmt.Println(review)
 
+	session, err := store.Get(r, "user")
+	checkFmt(err)
+
+    rr := Review{
+      Comment: review,
+      Rating: rate,
+      Id: session.Values["Id"].(string),
+    }
+    
+    AddReview(rr)
 	}
 }
 
