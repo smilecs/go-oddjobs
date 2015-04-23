@@ -83,15 +83,15 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 
 		renderTemplate(w, "single.html", data)
 	} else if r.Method == "POST" {
-		  fmt.Println("POSTED review")
-		  r.ParseForm()
-		  
-		  rate := r.FormValue["rating"]
-		  fmt.Println(rate)
-		  
-		  review := r.FormValue["description"]
-		  fmt.Println(review)
-		  
+		fmt.Println("POSTED review")
+		r.ParseForm()
+
+		rate := r.FormValue("rating")
+		fmt.Println(rate)
+
+		review := r.FormValue("description")
+		fmt.Println(review)
+
 	}
 }
 
