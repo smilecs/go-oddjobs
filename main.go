@@ -26,7 +26,7 @@ var (
 
 //pre parse the template files, and store them in memory. Fail if
 //they're not found
-var templates = template.Must(template.ParseFiles("templates/index.html", "templates/search-results.html", "templates/single.html", "templates/profile.html","templates/jstemplates.html"))
+var templates = template.Must(template.ParseFiles("templates/index.html", "templates/search-results.html", "templates/single.html", "templates/profile.html","templates/jstemplates.html","templates/templates.html"))
 
 func init() {
 	MONGOSERVER = os.Getenv("MONGOSERVER")
