@@ -102,7 +102,7 @@
     {{ if eq .User.URL "" }}
             <li><a href="/profile"><img class="img-circle img-ppic" src="{{.User.User.Image}}"/> <span>{{.User.User.Name}}</span></a></li>
             
-            <li><a><i class="fa fa-unlock" ></i> logout</a></li>
+            <li><a href="/logout"><i class="fa fa-unlock" ></i> logout</a></li>
     {{ else }}
         <li>
             <a class="" href="/login">
