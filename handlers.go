@@ -71,20 +71,28 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 
 		skill, err := GetSkillBySlug(slug, location)
 		checkFmt(err)
-
+  
+    skillid := SlugtoID(slug)
+    
+    reviews,err := GetReviews(skillid)
+    checkFmt(err)
+    
 		type datastruct struct {
 			User  LoginDataStruct
 			FBURL string
 			Data  Skill
+			Reviews []Review
 		}
 
 		data := datastruct{
 			User:  LoginData(r),
 			FBURL: FBURL,
 			Data:  skill,
+			Reviews: reviews,
 		}
 
 		renderTemplate(w, "single.html", data)
+		
 	} else if r.Method == "POST" {
 		fmt.Println("POSTED review")
 		r.ParseForm()

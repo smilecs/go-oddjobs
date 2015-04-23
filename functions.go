@@ -221,28 +221,6 @@ func GetSkillBySlug(slug string, location string) (Skill, error) {
 
 }
 
-//GetComment retrieves the reviews for a particular skill document
-func GetComment(id string) ([]Skill, error) {
-	session, err := mgo.Dial(MONGOSERVER)
-
-	result := []Skill{}
-
-	if err != nil {
-		return result, err
-	}
-
-	defer session.Close()
-
-	skillCollection := session.DB(MONGODB).C("skills")
-
-	err = skillCollection.FindId(bson.ObjectIdHex(id)).Select(bson.M{"Comments": 1}).One(&result)
-	if err != nil {
-		return result, err
-	}
-	return result, nil
-
-}
-
 //AddBookmark is a utility function for adding bookmarks
 func AddBookmark(bookmark *BookMark, id string) error {
 	session, err := mgo.Dial(MONGOSERVER)
@@ -286,6 +264,28 @@ func GetBookmarks(id string) ([]User, error) {
 	return result, nil
 }
 
+//SlugtoID ish
+func SlugtoID(slug string) string {
+	session, err := mgo.Dial(MONGOSERVER)
+
+	result := Skill{}
+
+	if err != nil {
+		return ""
+	}
+	defer session.Close()
+	collection := session.DB(MONGODB).C("skills")
+	query := bson.M{
+		"slug": slug,
+	}
+	err = collection.Find(query).One(&result)
+	if err != nil {
+		checkFmt(err)
+		return ""
+	}
+	return result.Id.Hex()
+}
+
 //AddReview adds a comment to a skill
 func AddReview(r *Review) error {
 	session, err := mgo.Dial(MONGOSERVER)
@@ -301,6 +301,28 @@ func AddReview(r *Review) error {
 	err = skillCollection.Insert(r)
 
 	return nil
+
+}
+
+//GetReviews retrieves the reviews for a particular skill document
+func GetReviews(id string) ([]Review, error) {
+	session, err := mgo.Dial(MONGOSERVER)
+
+	result := []Review{}
+
+	if err != nil {
+		return result, err
+	}
+
+	defer session.Close()
+
+	skillCollection := session.DB(MONGODB).C("reviews")
+
+	err = skillCollection.FindId(bson.ObjectIdHex(id)).Select(bson.M{"Comments": 1}).One(&result)
+	if err != nil {
+		return result, err
+	}
+	return result, nil
 
 }
 

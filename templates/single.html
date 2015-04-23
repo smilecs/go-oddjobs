@@ -186,7 +186,7 @@
                            
                            <div class="comment-group">
                                <!--comment instance-->
-                     
+                     {{ range .Reviews }}
 <div class="comment">
                <div class="well well-sm">
                   <img class="img-circle pull-left" style="width:40px;height:40px;"  src="https://graph.facebook.com/963176113698271/picture?width=180&height=180"/>
@@ -206,7 +206,7 @@
                </div><!-- well ends here -->
                
                <div class="review-top-row">
-                   <strong>Rated</strong> sad &nbsp;&nbsp;<small>2 days
+                   <strong>Rated</strong> 4.0 &nbsp;&nbsp;<small>2 days
                    ago</small>
                 
                    <a class=" btn btn-xs btn-default
@@ -240,7 +240,7 @@
 
 
            </div>
-
+              {{end}}
           
                                <!--comment instance ends here-->
                                
