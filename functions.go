@@ -414,7 +414,7 @@ func Popular() ([]Skill, error) {
 //adding it to reduce the number of error checking ifs in my code
 func checkFmt(err error) {
 	if err != nil {
-		log.Println(err.Error)
+		log.Println(err)
 	}
 }
 
