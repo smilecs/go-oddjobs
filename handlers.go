@@ -96,14 +96,14 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		
 		skill.ReviewsNo = len(zzz)
 		
-		rate := skill.TotalRating / skill.ReviewsNo
+		rate := float32(skill.TotalRating) / float32(skill.ReviewsNo)
 		
 		type datastruct struct {
 			User    LoginDataStruct
 			FBURL   string
 			Data    Skill
 			Reviews []Review
-			Rating  float
+			Rate  float32
 		}
 
 		data := datastruct{

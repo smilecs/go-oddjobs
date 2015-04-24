@@ -33,7 +33,7 @@ type Skill struct {
 	Address     string   `json:"Address"`
 	Price       string   `json:"Price"`
 	Description string   `json:"Description"`
-	Rating      int
+	Rating        int
 	ReviewsNo   int
 	TotalRating int
 }
