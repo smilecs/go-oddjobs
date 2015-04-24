@@ -40,6 +40,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		checkFmt(err)
 	}
+	
 	type datastruct struct {
 		User  LoginDataStruct
 		FBURL string

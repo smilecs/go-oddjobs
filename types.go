@@ -36,6 +36,7 @@ type Skill struct {
 	Rating        int
 	ReviewsNo   int
 	TotalRating int
+	User    User `bson:"_id,omitempty"`
 }
 
 //Review holds comment data

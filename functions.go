@@ -427,13 +427,22 @@ func Search(location string, query string, page int, perPage int) ([]Skill, Page
 	Page = SearchPagination(count, page, perPage)
 
 	err = q.Limit(perPage).Skip(Page.Skip).All(&Results)
+	
+var zzz []Skill
 
-	fmt.Println(Results)
+		for _, rr := range Results {
+			uu, err := GetProfile(rr.UserID)
+			checkFmt(err)
+			rr.User = uu
+
+			zzz = append(zzz, rr)
+		}
+	fmt.Println(zzz)
 
 	if err != nil {
-		return Results, Page, err
+		return zzz, Page, err
 	}
-	return Results, Page, nil
+	return zzz, Page, nil
 
 }
 
