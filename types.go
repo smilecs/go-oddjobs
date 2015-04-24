@@ -44,6 +44,7 @@ type Review struct {
 	Email   string
 	Comment string
 	Rating  int
+	User    User
 }
 
 //LoginDataStruct carries information about a user if logged in, or an

@@ -83,6 +83,16 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		log.Println(reviews)
 		
 		
+		
+		var zzz []Review
+		
+		for rr := range reviews{
+		  uu, err := GetProfile(rr.id)
+		  rr.User = uu
+		  
+		  zzz = append(zzz, rr)
+		}
+		
 		type datastruct struct {
 			User    LoginDataStruct
 			FBURL   string
@@ -94,7 +104,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 			User:    LoginData(r),
 			FBURL:   FBURL,
 			Data:    skill,
-			Reviews: reviews,
+			Reviews: zzz,
 		}
 
 		renderTemplate(w, "single.html", data)
