@@ -35,6 +35,7 @@ type Skill struct {
 	Description string   `json:"Description"`
 	Rating      int
 	ReviewsNo   int
+	TotalRating int
 }
 
 //Review holds comment data

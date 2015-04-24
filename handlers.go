@@ -132,6 +132,8 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		id := session.Values["id"].(string)
 		pid := SlugtoID(slug)
 		
+	
+		
 		
 		rr := Review{
 			Comment: review,
@@ -142,6 +144,9 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 
 		log.Println(rr)
 
+    err = AddRate(pid,s)
+    checkFmt(err)
+    
 		err = AddReview(&rr)
 		checkFmt(err)
 		http.Redirect(w, r, r.URL.String(), http.StatusFound)

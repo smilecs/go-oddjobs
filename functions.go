@@ -150,6 +150,33 @@ func AddSkill(data *Skill) error {
 	return nil
 }
 
+//AddRate adds a skill to the collection
+func AddRate(pid string, rate int) error {
+	session, err := mgo.Dial(MONGOSERVER)
+
+	if err != nil {
+		return err
+	}
+
+	defer session.Close()
+
+	skillCollection := session.DB(MONGODB).C("skills")
+	data := bson.M{
+		"$inc": bson.M{
+			"ReviewsNo":   1,
+			"TotalRating": rate,
+		},
+	}
+
+	id := bson.ObjectIdHex(pid)
+
+	err = skillCollection.Update(id, data)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 //GetSkills gets all the skills added by user
 func GetSkills(ID string) ([]Skill, error) {
 	session, err := mgo.Dial(MONGOSERVER)
@@ -305,7 +332,6 @@ func AddReview(r *Review) error {
 
 }
 
-
 //GetReviews retrieves the reviews for a particular skill document
 func GetReviews(id string) ([]Review, error) {
 	session, err := mgo.Dial(MONGOSERVER)
@@ -317,7 +343,7 @@ func GetReviews(id string) ([]Review, error) {
 	}
 
 	defer session.Close()
-	
+
 	log.Println("PostID")
 	log.Println(id)
 
