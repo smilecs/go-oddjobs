@@ -33,8 +33,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 
-	location := r.FormValue("l")
-	query := r.FormValue("q")
+	location := strings.ToLower(r.FormValue("l"))
+	query := strings.ToLower(r.FormValue("q"))
 	d, p, err := Search(location, query, 1, 20)
 	if err != nil {
 		checkFmt(err)
@@ -81,29 +81,27 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		checkFmt(err)
 
 		log.Println(reviews)
-		
-		
-		
+
 		var zzz []Review
-		
-		for _,rr := range reviews{
-		  uu, err := GetProfile(rr.Id)
-		  checkFmt(err)
-		  rr.User = uu
-		  
-		  zzz = append(zzz, rr)
+
+		for _, rr := range reviews {
+			uu, err := GetProfile(rr.Id)
+			checkFmt(err)
+			rr.User = uu
+
+			zzz = append(zzz, rr)
 		}
-		
+
 		skill.ReviewsNo = len(zzz)
-		
+
 		rate := float32(skill.TotalRating) / float32(skill.ReviewsNo)
-		
+
 		type datastruct struct {
 			User    LoginDataStruct
 			FBURL   string
 			Data    Skill
 			Reviews []Review
-			Rate  float32
+			Rate    float32
 		}
 
 		data := datastruct{
@@ -111,7 +109,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 			FBURL:   FBURL,
 			Data:    skill,
 			Reviews: zzz,
-			Rate:   rate,
+			Rate:    rate,
 		}
 
 		renderTemplate(w, "single.html", data)
@@ -128,17 +126,14 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 
 		session, err := store.Get(r, "user")
 		checkFmt(err)
-		
+
 		s, err := strconv.Atoi(rate)
-		
+
 		checkFmt(err)
-		
+
 		id := session.Values["id"].(string)
 		pid := SlugtoID(slug)
-		
-	
-		
-		
+
 		rr := Review{
 			Comment: review,
 			Rating:  s,
@@ -148,11 +143,12 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 
 		log.Println(rr)
 
-    err = AddRate(pid,s)
-    checkFmt(err)
-    
+		err = AddRate(pid, s)
+		checkFmt(err)
+
 		err = AddReview(&rr)
 		checkFmt(err)
+
 		http.Redirect(w, r, r.URL.String(), http.StatusFound)
 	}
 }
@@ -289,8 +285,6 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 		skill := Skill{}
 
 		err = json.Unmarshal(hah, &skill)
-		//fmt.Println(hah)
-		//fmt.Println(skill)
 		checkFmt(err)
 
 		skill.UserID = id
@@ -299,20 +293,6 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 		checkFmt(err)
 		http.Redirect(w, r, r.URL.String(), 301)
 
-		/*
-			x, err := json.Marshal(skills)
-			fmt.Print(string(x))
-			if err != nil {
-				fmt.Println(err)
-			}
-			w.Header().Set("Content-Type", "application/json")
-			_, err = w.Write(x)
-
-			if err != nil {
-				fmt.Println(err)
-			}
-
-		*/
 	}
 
 }

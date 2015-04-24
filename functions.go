@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"strings"
 
 	"github.com/extemporalgenome/slug"
 	"gopkg.in/mgo.v2"
@@ -141,6 +142,7 @@ func AddSkill(data *Skill) error {
 		data.Id = bson.NewObjectId()
 	}
 
+	data.Location = strings.ToLower(data.Location)
 	data.Slug = slug.Slug(data.SkillName + " " + randSeq(5))
 
 	_, err = skillCollection.UpsertId(data.Id, data)
@@ -328,6 +330,13 @@ func AddReview(r *Review) error {
 
 	err = skillCollection.Insert(r)
 
+	if err != nil {
+		return err
+	}
+	err = AddRate(r.PostID, r.Rating)
+	if err != nil {
+		return err
+	}
 	return nil
 
 }
