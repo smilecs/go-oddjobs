@@ -38,6 +38,7 @@ type Skill struct {
 
 //Review holds comment data
 type Review struct {
+  PostID  string
 	Id      string
 	Name    string
 	Email   string

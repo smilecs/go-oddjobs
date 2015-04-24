@@ -112,10 +112,12 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		s, err := strconv.Atoi(rate)
 		checkFmt(err)
 		id := session.Values["id"].(string)
+		pid := SlugtoID(slug)
 		rr := Review{
 			Comment: review,
 			Rating:  s,
 			Id:      id,
+			PostID:  pid,
 		}
 
 		fmt.Println(rr)
