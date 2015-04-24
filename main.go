@@ -56,6 +56,9 @@ func init() {
 		MaxAge:   3600 * 1000, //3600 is 1 hour
 		HttpOnly: false,
 	}
+	
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	
 }
 
 //renderTemplate is simply a helper function that takes in the response writer
