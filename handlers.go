@@ -99,14 +99,14 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		renderTemplate(w, "single.html", data)
 
 	} else if r.Method == "POST" {
-		fmt.Println("POSTED review")
+		log.Println("POSTED review")
 		r.ParseForm()
 
 		rate := r.FormValue("rating")
-		fmt.Println(rate)
+		log.Println(rate)
 
 		review := r.FormValue("description")
-		fmt.Println(review)
+		log.Println(review)
 
 		session, err := store.Get(r, "user")
 		checkFmt(err)
@@ -121,7 +121,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 			PostID:  pid,
 		}
 
-		fmt.Println(rr)
+		log.Println(rr)
 
 		err = AddReview(&rr)
 		checkFmt(err)
