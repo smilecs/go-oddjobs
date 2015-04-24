@@ -427,11 +427,13 @@ func Search(location string, query string, page int, perPage int) ([]Skill, Page
 	Page = SearchPagination(count, page, perPage)
 
 	err = q.Limit(perPage).Skip(Page.Skip).All(&Results)
+	log.Println(Results)
 	
 var zzz []Skill
 
 		for _, rr := range Results {
 			uu, err := GetProfile(rr.UserID)
+	    log.Println(uu)
 			checkFmt(err)
 			rr.User = uu
 

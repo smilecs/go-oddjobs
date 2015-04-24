@@ -38,7 +38,7 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
 	query := strings.ToLower(r.FormValue("q"))
 	d, p, err := Search(location, query, 1, 20)
 	if err != nil {
-		checkFmt(err)
+		log.Println(err)
 	}
 	
 	type datastruct struct {
