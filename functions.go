@@ -381,6 +381,7 @@ func Search(location string, query string, page int, perPage int) ([]Skill, Page
 	session, err := mgo.Dial(MONGOSERVER)
 
 	if err != nil {
+	  log.Println(err)
 		return Results, Page, err
 	}
 
@@ -394,6 +395,7 @@ func Search(location string, query string, page int, perPage int) ([]Skill, Page
 
 	err = skillCollection.EnsureIndex(index)
 	if err != nil {
+	  log.Println(err)
 		return Results, Page, err
 	}
 	var q *mgo.Query
@@ -418,7 +420,8 @@ func Search(location string, query string, page int, perPage int) ([]Skill, Page
 	count, err := q.Count()
 
 	if err != nil {
-		checkFmt(err)
+	  log.Println(err)
+		//checkFmt(err)
 	}
 
 	//SearchPagination gives us a struct that tells us if the data has a
@@ -434,7 +437,7 @@ var zzz []Skill
 		for _, rr := range Results {
 			uu, err := GetProfile(rr.UserID)
 	    log.Println(uu)
-			checkFmt(err)
+			log.Println(err)
 			rr.User = uu
 
 			zzz = append(zzz, rr)
@@ -442,6 +445,7 @@ var zzz []Skill
 	fmt.Println(zzz)
 
 	if err != nil {
+	  log.Println(err)
 		return zzz, Page, err
 	}
 	return zzz, Page, nil
