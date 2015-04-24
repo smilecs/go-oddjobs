@@ -304,7 +304,7 @@ func AddReview(r *Review) error {
 	err = skillCollection.Insert(r)
 
 	if err != nil {
-	  panic(err)
+	  //panic(err)
 		return err
 	}
 	err = AddRate(r.PostID, r.Rating)
