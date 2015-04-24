@@ -307,10 +307,10 @@ func AddReview(r *Review) error {
 	  panic(err)
 		return err
 	}
-	/*err = AddRate(r.PostID, r.Rating)
+	err = AddRate(r.PostID, r.Rating)
 	if err != nil {
 		return err
-	}*/
+	}
 	return nil
 
 }
