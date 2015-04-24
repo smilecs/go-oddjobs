@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	"strconv"
 	"strings"
@@ -94,17 +95,21 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 
 		skill.ReviewsNo = len(zzz)
 
-		rate := float32(skill.TotalRating) / float32(skill.ReviewsNo)
+		rate := float64(skill.TotalRating) / float64(skill.ReviewsNo)
 		log.Println(skill.TotalRating)
 		log.Println(skill.ReviewsNo)
 		log.Println(rate)
+
+		if math.IsNaN(rate) {
+			rate = 0.0
+		}
 
 		type datastruct struct {
 			User    LoginDataStruct
 			FBURL   string
 			Data    Skill
 			Reviews []Review
-			Rate    float32
+			Rate    float64
 		}
 
 		data := datastruct{
@@ -140,13 +145,13 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		rr := Review{
 			Comment: review,
 			Rating:  s,
-			Idd:      id,
+			Idd:     id,
 			PostID:  pid,
 		}
-		
+
 		log.Println("postID just before rating")
-    log.Println(id)
-    log.Println(pid)
+		log.Println(id)
+		log.Println(pid)
 		log.Println(rr)
 
 		err = AddReview(&rr)
