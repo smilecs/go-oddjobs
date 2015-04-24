@@ -140,7 +140,8 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 			Id:      id,
 			PostID:  pid,
 		}
-
+		
+    log.Println(pid)
 		log.Println(rr)
 
 		err = AddRate(pid, s)
