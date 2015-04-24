@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
 
 	"github.com/extemporalgenome/slug"
@@ -317,7 +318,7 @@ func GetReviews(id string) ([]Review, error) {
 	defer session.Close()
 
 	skillCollection := session.DB(MONGODB).C("reviews")
-	q:= bson.M{"id":id}
+	q := bson.M{"id": id}
 
 	err = skillCollection.Find(q).Select(bson.M{"Comments": 1}).One(&result)
 	if err != nil {
@@ -413,7 +414,7 @@ func Popular() ([]Skill, error) {
 //adding it to reduce the number of error checking ifs in my code
 func checkFmt(err error) {
 	if err != nil {
-		fmt.Println(err.Error)
+		log.Println(err.Error)
 	}
 }
 

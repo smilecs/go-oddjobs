@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -71,32 +72,32 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 
 		skill, err := GetSkillBySlug(slug, location)
 		checkFmt(err)
-  
-    skillid := SlugtoID(slug)
-    
-    fmt.Println(skillid)
-    
-    reviews,err := GetReviews(skillid)
-    checkFmt(err)
-    
-    fmt.Println(reviews)
-    
+
+		skillid := SlugtoID(slug)
+
+		log.Println(skillid)
+
+		reviews, err := GetReviews(skillid)
+		checkFmt(err)
+
+		log.Println(reviews)
+
 		type datastruct struct {
-			User  LoginDataStruct
-			FBURL string
-			Data  Skill
+			User    LoginDataStruct
+			FBURL   string
+			Data    Skill
 			Reviews []Review
 		}
 
 		data := datastruct{
-			User:  LoginData(r),
-			FBURL: FBURL,
-			Data:  skill,
+			User:    LoginData(r),
+			FBURL:   FBURL,
+			Data:    skill,
 			Reviews: reviews,
 		}
 
 		renderTemplate(w, "single.html", data)
-		
+
 	} else if r.Method == "POST" {
 		fmt.Println("POSTED review")
 		r.ParseForm()
