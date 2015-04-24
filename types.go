@@ -46,7 +46,7 @@ type Review struct {
 	Email   string
 	Comment string
 	Rating  int
-	User    User
+	User    User `bson:"_id,omitempty"`
 }
 
 //LoginDataStruct carries information about a user if logged in, or an
