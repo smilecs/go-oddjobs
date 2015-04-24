@@ -317,8 +317,9 @@ func GetReviews(id string) ([]Review, error) {
 	defer session.Close()
 
 	skillCollection := session.DB(MONGODB).C("reviews")
+	q:= bson.M{"id":id}
 
-	err = skillCollection.FindId(bson.ObjectIdHex(id)).Select(bson.M{"Comments": 1}).One(&result)
+	err = skillCollection.Find(q).Select(bson.M{"Comments": 1}).One(&result)
 	if err != nil {
 		return result, err
 	}
