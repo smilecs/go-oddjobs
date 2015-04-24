@@ -96,11 +96,14 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		
 		skill.ReviewsNo = len(zzz)
 		
+		rate := skill.TotalRating / skill.ReviewsNo
+		
 		type datastruct struct {
 			User    LoginDataStruct
 			FBURL   string
 			Data    Skill
 			Reviews []Review
+			Rating  float
 		}
 
 		data := datastruct{
@@ -108,6 +111,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 			FBURL:   FBURL,
 			Data:    skill,
 			Reviews: zzz,
+			Rate:   rate,
 		}
 
 		renderTemplate(w, "single.html", data)
