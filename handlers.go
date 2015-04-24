@@ -145,9 +145,6 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
     log.Println(pid)
 		log.Println(rr)
 
-		err = AddRate(pid, s)
-		checkFmt(err)
-
 		err = AddReview(&rr)
 		checkFmt(err)
 
