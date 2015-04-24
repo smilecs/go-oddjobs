@@ -431,6 +431,7 @@ func Search(location string, query string, page int, perPage int) ([]Skill, Page
 
 	err = q.Limit(perPage).Skip(Page.Skip).All(&Results)
 	log.Println(Results)
+	log.Println(err)
 	
 var zzz []Skill
 
