@@ -94,6 +94,8 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		  zzz = append(zzz, rr)
 		}
 		
+		skill.ReviewsNo = len(zzz)
+		
 		type datastruct struct {
 			User    LoginDataStruct
 			FBURL   string
