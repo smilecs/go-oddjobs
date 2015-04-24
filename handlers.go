@@ -95,6 +95,9 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		skill.ReviewsNo = len(zzz)
 
 		rate := float32(skill.TotalRating) / float32(skill.ReviewsNo)
+		log.Println(skill.TotalRating)
+		log.Println(skill.ReviewsNo)
+		log.Println(rate)
 
 		type datastruct struct {
 			User    LoginDataStruct
