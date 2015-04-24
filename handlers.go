@@ -74,7 +74,8 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 
 		skill, err := GetSkillBySlug(slug, location)
 		checkFmt(err)
-
+    log.Println(skill)
+    
 		skillid := SlugtoID(slug)
 
 		log.Println(skillid)

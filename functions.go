@@ -307,6 +307,9 @@ func AddReview(r *Review) error {
 	  //panic(err)
 		return err
 	}
+	log.Println(r.PostID)
+	log.Println(r.Rating)
+	
 	err = AddRate(r.PostID, r.Rating)
 	if err != nil {
 		return err
