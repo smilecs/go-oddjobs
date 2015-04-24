@@ -88,6 +88,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		
 		for _,rr := range reviews{
 		  uu, err := GetProfile(rr.Id)
+		  checkFmt(err)
 		  rr.User = uu
 		  
 		  zzz = append(zzz, rr)
