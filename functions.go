@@ -341,6 +341,8 @@ func AddRate(pid string, rate int) error {
 	id := bson.ObjectIdHex(pid)
 
 	err = skillCollection.UpdateId(id, data)
+	log.Println(err)
+	
 	if err != nil {
 		return err
 	}
