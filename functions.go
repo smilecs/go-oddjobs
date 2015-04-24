@@ -305,6 +305,7 @@ func AddReview(r *Review) error {
 
 }
 
+
 //GetReviews retrieves the reviews for a particular skill document
 func GetReviews(id string) ([]Review, error) {
 	session, err := mgo.Dial(MONGOSERVER)
@@ -322,7 +323,7 @@ func GetReviews(id string) ([]Review, error) {
 	skillCollection := session.DB(MONGODB).C("reviews")
 	q := bson.M{"id": id}
 
-	err = skillCollection.Find(q).Select(bson.M{"Comments": 1}).One(&result)
+	err = skillCollection.Find(q).All(&result)
 	if err != nil {
 		return result, err
 	}
