@@ -141,6 +141,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 			PostID:  pid,
 		}
 		
+		log.Println("postID just before rating")
     log.Println(pid)
 		log.Println(rr)
 
