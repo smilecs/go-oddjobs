@@ -66,7 +66,7 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 	URL := strings.Split(r.URL.Path, "/")
 	location := URL[2]
 	slug := URL[3]
-	fmt.Println(slug)
+	log.Println(slug)
 
 	if r.Method == "GET" {
 
@@ -81,7 +81,8 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 		checkFmt(err)
 
 		log.Println(reviews)
-
+		
+		
 		type datastruct struct {
 			User    LoginDataStruct
 			FBURL   string
@@ -110,10 +111,15 @@ func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
 
 		session, err := store.Get(r, "user")
 		checkFmt(err)
+		
 		s, err := strconv.Atoi(rate)
+		
 		checkFmt(err)
+		
 		id := session.Values["id"].(string)
 		pid := SlugtoID(slug)
+		
+		
 		rr := Review{
 			Comment: review,
 			Rating:  s,

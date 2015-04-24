@@ -316,6 +316,8 @@ func GetReviews(id string) ([]Review, error) {
 	}
 
 	defer session.Close()
+	
+	log.Println(id)
 
 	skillCollection := session.DB(MONGODB).C("reviews")
 	q := bson.M{"id": id}
