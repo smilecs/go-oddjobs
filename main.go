@@ -56,9 +56,9 @@ func init() {
 		MaxAge:   3600 * 1000, //3600 is 1 hour
 		HttpOnly: false,
 	}
-	
+
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	
+
 }
 
 //renderTemplate is simply a helper function that takes in the response writer
@@ -82,6 +82,7 @@ func main() {
 	http.HandleFunc("/api/Getskills/", UserSkillshandler)
 	http.HandleFunc("/api/Userskill/", SingleSkillHandler)
 	http.HandleFunc("/api/Userbookmark/", BookmarkHandler)
+	http.HandleFunc("/api/Review/", ReviewHandlers)
 	http.HandleFunc("/api/search", ApiSearchHandler)
 	http.HandleFunc("/api/feeds", FeedsHandler)
 

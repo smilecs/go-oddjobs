@@ -144,6 +144,19 @@ func BookmarkHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func ReviewHandlers(w http.ResponseWriter, r *http.Request) {
+
+	tmp := strings.Split(r.URL.Path, "/")
+	urlID := tmp[3]
+	review := &Review{
+		Name:    r.FormValue("Name"),
+		Id:      urlID,
+		Comment: r.FormValue("Comment"),
+		Rating:  r.FormValue("Rating"),
+	}
+	AddReview(review)
+
+}
 func SingleSkillHandler(w http.ResponseWriter, r *http.Request) {
 	tmp := strings.Split(r.URL.Path, "/")
 	urlID := tmp[3]
