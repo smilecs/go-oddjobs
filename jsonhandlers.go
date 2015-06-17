@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
-	"strings"
-
 	"gopkg.in/mgo.v2/bson"
+	"net/http"
+	"strconv"
+	"strings"
 )
 
 //LoginHandler serves the profile data to the user
@@ -148,11 +148,12 @@ func ReviewHandlers(w http.ResponseWriter, r *http.Request) {
 
 	tmp := strings.Split(r.URL.Path, "/")
 	urlID := tmp[3]
+	i, _ := strconv.Atoi(r.FormValue("Rating"))
 	review := &Review{
 		Name:    r.FormValue("Name"),
-		Id:      urlID,
+		Idd:     urlID,
 		Comment: r.FormValue("Comment"),
-		Rating:  r.FormValue("Rating"),
+		Rating:  i,
 	}
 	AddReview(review)
 
