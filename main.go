@@ -26,7 +26,7 @@ var (
 
 //pre parse the template files, and store them in memory. Fail if
 //they're not found
-var templates = template.Must(template.ParseFiles("templates/index.html", "templates/search-results.html", "templates/single.html", "templates/profile.html", "templates/jstemplates.html", "templates/templates.html"))
+var templates = template.Must(template.ParseFiles("templates/index.html", "templates/search-results.html", "templates/profile.html"))
 
 func init() {
 	MONGOSERVER = os.Getenv("MONGOSERVER")
@@ -34,14 +34,12 @@ func init() {
 		fmt.Println("No mongo server address set, resulting to default address")
 		MONGOSERVER = "localhost"
 	}
-	fmt.Println("MONGOSERVER is ", MONGOSERVER)
 
 	MONGODB = os.Getenv("MONGODB")
 	if MONGODB == "" {
 		fmt.Println("No Mongo database name set, resulting to default")
 		MONGODB = "oddjobs"
 	}
-	fmt.Println("MONGODB is ", MONGODB)
 
 	PORT = os.Getenv("PORT")
 	if PORT == "" {
@@ -56,9 +54,6 @@ func init() {
 		MaxAge:   3600 * 1000, //3600 is 1 hour
 		HttpOnly: false,
 	}
-
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
-
 }
 
 //renderTemplate is simply a helper function that takes in the response writer
@@ -82,22 +77,11 @@ func main() {
 	http.HandleFunc("/api/Getskills/", UserSkillshandler)
 	http.HandleFunc("/api/Userskill/", SingleSkillHandler)
 	http.HandleFunc("/api/Userbookmark/", BookmarkHandler)
-	http.HandleFunc("/api/Review/", ReviewHandlers)
 	http.HandleFunc("/api/search", ApiSearchHandler)
 	http.HandleFunc("/api/feeds", FeedsHandler)
 
-	//my web api
-	http.HandleFunc("/api/web/profile", ProfileEditHandler)
-	http.HandleFunc("/api/web/skills", SkillsHandler)
-
 	//serving public views
 	http.HandleFunc("/fblogin", FacebookOAUTH)
-	// http.HandleFunc("/logout", Logout)
-	http.HandleFunc("/profile/", ProfileHandler)
-	http.HandleFunc("/login", Login)
-	http.HandleFunc("/logout", Logout)
-	http.HandleFunc("/s/", SearchHandler)
-	http.HandleFunc("/q/", SingleHandlerWeb)
 	http.HandleFunc("/", HomeHandler)
 
 	fmt.Println("serving on http://localhost:" + PORT)

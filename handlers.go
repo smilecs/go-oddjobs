@@ -4,14 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"log"
-	"math"
 	"net/http"
-	"strconv"
-	"strings"
-
-	"github.com/gorilla/sessions"
-	//"strings"
 )
 
 //HomeHandler serves the home/search page to the user
@@ -32,151 +25,23 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 //SearchHandler serves the search results page based on a search query from the
 //index page or any search box
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-
-	location := strings.ToLower(r.FormValue("l"))
-	query := strings.ToLower(r.FormValue("q"))
-	d, p, err := Search(location, query, 1, 20)
-	if err != nil {
-		log.Println(err)
-	}
-	
-	type datastruct struct {
-		User  LoginDataStruct
-		FBURL string
-		Page  Page
-		Data  []Skill
-		L     string
-		Q     string
-	}
-
-	data := datastruct{
-		User:  LoginData(r),
-		FBURL: FBURL,
-		Data:  d,
-		Page:  p,
-		L:     location,
-		Q:     query,
-	}
-	renderTemplate(w, "search-results.html", data)
-}
-
-//SingleHandlerWeb serves the search results page based on a search query from the
-//index page or any search box
-func SingleHandlerWeb(w http.ResponseWriter, r *http.Request) {
-
-	URL := strings.Split(r.URL.Path, "/")
-	location := URL[2]
-	slug := URL[3]
-	log.Println(slug)
-
-	if r.Method == "GET" {
-
-		skill, err := GetSkillBySlug(slug, location)
-		checkFmt(err)
-    log.Println(skill)
-    
-		skillid := SlugtoID(slug)
-
-		log.Println(skillid)
-
-		reviews, err := GetReviews(skillid)
-		checkFmt(err)
-
-		log.Println(reviews)
-
-		var zzz []Review
-
-		for _, rr := range reviews {
-			uu, err := GetProfile(rr.Idd)
-			checkFmt(err)
-			rr.User = uu
-
-			zzz = append(zzz, rr)
-		}
-
-		skill.ReviewsNo = len(zzz)
-
-		rate := float64(skill.TotalRating) / float64(skill.ReviewsNo)
-		log.Println(skill.TotalRating)
-		log.Println(skill.ReviewsNo)
-		log.Println(rate)
-
-		if math.IsNaN(rate) {
-			rate = 0.0
-		}
-
-		type datastruct struct {
-			User    LoginDataStruct
-			FBURL   string
-			Data    Skill
-			Reviews []Review
-			Rate    float64
-		}
-
-		data := datastruct{
-			User:    LoginData(r),
-			FBURL:   FBURL,
-			Data:    skill,
-			Reviews: zzz,
-			Rate:    rate,
-		}
-
-		renderTemplate(w, "single.html", data)
-
-	} else if r.Method == "POST" {
-		log.Println("POSTED review")
-		r.ParseForm()
-
-		rate := r.FormValue("rating")
-		log.Println(rate)
-
-		review := r.FormValue("description")
-		log.Println(review)
-
-		session, err := store.Get(r, "user")
-		checkFmt(err)
-
-		s, err := strconv.Atoi(rate)
-
-		checkFmt(err)
-
-		id := session.Values["id"].(string)
-		pid := SlugtoID(slug)
-
-		rr := Review{
-			Comment: review,
-			Rating:  s,
-			Idd:     id,
-			PostID:  pid,
-		}
-
-		log.Println("postID just before rating")
-		log.Println(id)
-		log.Println(pid)
-		log.Println(rr)
-
-		err = AddReview(&rr)
-		checkFmt(err)
-
-		http.Redirect(w, r, r.URL.String(), http.StatusFound)
-	}
+	renderTemplate(w, "search-results.html", "")
 }
 
 //ProfileHandler might be remove later, its just to test redirection and profile
 //data collection after login
 func ProfileHandler(w http.ResponseWriter, r *http.Request) {
-	type datastruct struct {
-		User  LoginDataStruct
-		FBURL string
-	}
-
-	data := datastruct{
-		User:  LoginData(r),
-		FBURL: FBURL,
+  type datastruct struct {
+  		User  LoginDataStruct
+  		FBURL string
+  	}
+  
+  	data := datastruct{
+  		User:  LoginData(r),
+  		FBURL: FBURL,
 	}
 	if r.Method == "GET" {
-		renderTemplate(w, "profile.html", data)
+		renderTemplate(w, "profile.html",data)
 	} else if r.Method == "POST" {
 		fmt.Println("POST request logged")
 	}
@@ -188,72 +53,40 @@ func ProfileEditHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 	fmt.Println(r.Method)
-	session, err := store.Get(r, "user")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(session.Values["id"])
-	fmt.Println(session.Values["email"])
-
-	id := session.Values["id"].(string)
-
 	if r.Method == "GET" {
 		fmt.Println("Get request")
-		fmt.Println(id)
-		user, err := GetProfile(id)
-		checkFmt(err)
+		user := User{
+			Name:  "Anthony Alaribe Test",
+			About: "bla bla bla bla",
+			Email: "me@me.com",
+		}
 		x, err := json.Marshal(user)
-		checkFmt(err)
-		fmt.Println("Profile GET user data")
-		fmt.Println(user)
+		if err != nil {
+			fmt.Println(err)
+		}
 		w.Header().Set("Content-Type", "application/json")
 		_, err = w.Write(x)
 
-		checkFmt(err)
+		if err != nil {
+			fmt.Println(err)
+		}
 
 	} else if r.Method == "POST" {
 		hah, err := ioutil.ReadAll(r.Body)
-		checkFmt(err)
-
+		if err != nil {
+			fmt.Fprintf(w, "%s", err)
+		}
 		fmt.Println(string(hah))
 		user := User{}
 
 		err = json.Unmarshal(hah, &user)
 
-		checkFmt(err)
+		if err != nil {
+			fmt.Println(err)
+		}
+
 		fmt.Println(user)
-
-		session.Values["email"] = user.Email
-		session.Values["name"] = user.Name
-
-		err = session.Save(r, w)
-		checkFmt(err)
-		err = UpdateUser(&user, id)
-		checkFmt(err)
 	}
-}
-
-//Login ish
-func Login(w http.ResponseWriter, r *http.Request) {
-	session, err := store.Get(r, "current")
-	if err != nil {
-		fmt.Println(err)
-	}
-	fmt.Println(r.URL.String())
-
-	session.Values["url"] = r.URL.String()
-
-	http.Redirect(w, r, FBURL, http.StatusFound)
-}
-
-//Logout dsfsdgs
-func Logout(w http.ResponseWriter, r *http.Request) {
-	session, err := store.Get(r, "user")
-	checkFmt(err)
-	session.Options = &sessions.Options{MaxAge: -1, Path: "/"}
-	session.Save(r, w)
-	http.Redirect(w, r, "/", http.StatusFound)
 }
 
 //SkillsHandler would return list of skills via json, and suport editing and
@@ -261,19 +94,34 @@ func Logout(w http.ResponseWriter, r *http.Request) {
 func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-	session, err := store.Get(r, "user")
-	checkFmt(err)
-	fmt.Println(session.Values["id"])
-
-	id := session.Values["id"].(string)
-
+	fmt.Println(r.Method)
+	hah, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Fprintf(w, "%s", err)
+	}
+	fmt.Println(string(hah))
 	if r.Method == "GET" {
 		fmt.Println("get request")
 
 		skills := []Skill{}
 
-		skills, err := GetSkills(id)
-		checkFmt(err)
+		skill1 := Skill{
+			SkillName:   "Electrician",
+			Tags:        []string{"tech", "farm"},
+			Location:    "Calabar",
+			Address:     "QC 28 unical staff quaters",
+			Description: "dasfklsdgf sdflksd fdsf sd",
+		}
+		skill2 := Skill{
+			SkillName:   "Programmer",
+			Tags:        []string{"code"},
+			Location:    "Aba",
+			Address:     "QC 20 aba town",
+			Description: "sdfdsf sdf sd f dsf ds gf sd  sdfds",
+		}
+
+		skills = append(skills, skill1)
+		skills = append(skills, skill2)
 
 		x, err := json.Marshal(skills)
 		fmt.Print(string(x))
@@ -286,22 +134,6 @@ func SkillsHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			fmt.Println(err)
 		}
-
-	} else if r.Method == "POST" {
-		fmt.Println("post request")
-		hah, err := ioutil.ReadAll(r.Body)
-		checkFmt(err)
-
-		skill := Skill{}
-
-		err = json.Unmarshal(hah, &skill)
-		checkFmt(err)
-
-		skill.UserID = id
-
-		err = AddSkill(&skill)
-		checkFmt(err)
-		http.Redirect(w, r, r.URL.String(), 301)
 
 	}
 

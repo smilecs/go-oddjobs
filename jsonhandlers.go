@@ -3,10 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"gopkg.in/mgo.v2/bson"
 	"net/http"
-	"strconv"
 	"strings"
+
+	"gopkg.in/mgo.v2/bson"
 )
 
 //LoginHandler serves the profile data to the user
@@ -14,44 +14,20 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 	fmt.Println(r.Form)
-	ids := r.FormValue("ID")
-	img := "https://graph.facebook.com/" + ids + "/picture?width=180&height=180"
 	id := bson.NewObjectId()
 	//nw := strings.(id)
 	user := &User{
-		Email:  r.FormValue("email"),
-		ID:     r.FormValue("ID"),
-		Name:   r.FormValue("name"),
-		UserID: id,
-		Image:  img,
+		Email: r.FormValue("email"),
+		ID:    r.FormValue("ID"),
+		Name:  r.FormValue("name"),
+		_id:   id,
 	}
 
 	fmt.Println(user)
-	i, err := Authenticate(user, r.FormValue("provider"))
-	checkFmt(err)
-
-	fmt.Println("authenticate returns:")
-	fmt.Println(i)
-
-	type aaa struct {
-		Id string
-		Im string
-	}
-
-	x := aaa{
-		Id: i.Hex(),
-		Im: i.Hex(),
-	}
-
-	fmt.Println("reurn s")
-	fmt.Println(x)
-	//u, _ := i.MarshalJSON()
-	u, err := json.Marshal(x)
-	checkFmt(err)
-	fmt.Println(u)
-
+	i, _ := Authenticate(user, r.FormValue("provider"))
+	i2, _ := json.Marshal(i)
 	w.Header().Set("Content-Type", "application/json")
-	w.Write(u)
+	w.Write(i2)
 }
 
 //UserProfileHandler serves the profile
@@ -62,7 +38,6 @@ func UserProfileHandler(w http.ResponseWriter, r *http.Request) {
 	//id := r.FormValue("id")
 	tmp := strings.Split(r.URL.Path, "/")
 	id := tmp[3]
-	fmt.Println(id)
 	switch r.Method {
 	case "GET":
 		tmp2, _ := GetProfile(id)
@@ -71,15 +46,13 @@ func UserProfileHandler(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(data)
 	case "POST":
-		user := User{
+		user := &User{
 			Location: r.FormValue("location"),
 			About:    r.FormValue("about"),
 			Address:  r.FormValue("address"),
 			Phone:    r.FormValue("phone"),
 		}
-		fmt.Println(user)
-		fmt.Println(r.FormValue("location"))
-		UpdateUser(&user, id)
+		UpdateUser(user, id)
 	}
 }
 
@@ -108,7 +81,6 @@ func UserSkillshandler(w http.ResponseWriter, r *http.Request) {
 
 			UserID:      id,
 			UserName:    userName.Name,
-			Phone:       r.FormValue("phone"),
 			Location:    r.FormValue("location"),
 			Description: r.FormValue("desc"),
 			Address:     r.FormValue("address"),
@@ -135,29 +107,14 @@ func BookmarkHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(bookmarkData)
 	case "POST":
 		bookmark := &BookMark{
-			Id:        r.FormValue("Id"),
-			Name:      r.FormValue("Name"),
-			SkillName: r.FormValue("SkillName"),
-			Phone:     r.FormValue("Phone"),
+			id:        r.FormValue("id"),
+			Name:      r.FormValue("phone"),
+			SkillName: r.FormValue("email"),
 		}
 		AddBookmark(bookmark, urlID)
 	}
 }
 
-func ReviewHandlers(w http.ResponseWriter, r *http.Request) {
-
-	tmp := strings.Split(r.URL.Path, "/")
-	urlID := tmp[3]
-	i, _ := strconv.Atoi(r.FormValue("Rating"))
-	review := &Review{
-		Name:    r.FormValue("Name"),
-		Idd:     urlID,
-		Comment: r.FormValue("Comment"),
-		Rating:  i,
-	}
-	AddReview(review)
-
-}
 func SingleSkillHandler(w http.ResponseWriter, r *http.Request) {
 	tmp := strings.Split(r.URL.Path, "/")
 	urlID := tmp[3]
@@ -175,7 +132,7 @@ func FeedsHandler(w http.ResponseWriter, r *http.Request) {
 	v, _ := Popular()
 	w.Header().Set("Content_Type", "application/json")
 	data, _ := json.Marshal(v)
-	fmt.Println(v)
+	fmt.Println(data)
 	w.Write(data)
 }
 
@@ -185,7 +142,7 @@ func ApiSearchHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.URL)
 	fmt.Println(r.URL.Query())
 	tmp2 := r.URL.Query().Get("query")
-	v, _, _ := Search(tmp, tmp2, 50, 50)
+	v, _, _ := Search(tmp, tmp2, 50, 50, 50)
 
 	w.Header().Set("Content_Type", "application/json")
 	data, _ := json.Marshal(v)

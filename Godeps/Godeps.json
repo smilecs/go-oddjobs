@@ -8,10 +8,6 @@
 			"Rev": "636a4c07304e3f5efb95544271702d104514b427"
 		},
 		{
-			"ImportPath": "github.com/extemporalgenome/slug",
-			"Rev": "0320c85e32e0015b090f08a5d1324d5ab6094f07"
-		},
-		{
 			"ImportPath": "github.com/gorilla/context",
 			"Rev": "215affda49addc4c8ef7e2534915df2c8c35c6cd"
 		},
@@ -30,14 +26,6 @@
 		{
 			"ImportPath": "golang.org/x/oauth2",
 			"Rev": "5361962df4497a7fc777f5c3bd1b5c7ac36c604c"
-		},
-		{
-			"ImportPath": "golang.org/x/text/transform",
-			"Rev": "583b6acb6c7c552566973feda06f839192ccd02e"
-		},
-		{
-			"ImportPath": "golang.org/x/text/unicode/norm",
-			"Rev": "583b6acb6c7c552566973feda06f839192ccd02e"
 		},
 		{
 			"ImportPath": "gopkg.in/mgo.v2",

@@ -6,7 +6,7 @@ import (
 
 //User would hold the user data for retrieving and sending items to the database
 type User struct {
-	UserID    bson.ObjectId
+	_id       bson.ObjectId
 	Name      string
 	ID        string
 	About     string
@@ -22,32 +22,25 @@ type User struct {
 //Skill struct holds skill data to be used for adding and retrieving user skills
 //from the database
 type Skill struct {
-	Id          bson.ObjectId `json:"_id,omitempty" bson:"_id,omitempty"`
-	Slug        string
-	SkillName   string   `json:"SkillName"`
-	UserName    string   `json:"UserName"`
-	Tags        []string `json:"Tags"`
-	Phone       string   `json:"Phone"`
-	UserID      string   `json:"UserID"`
-	Location    string   `json:"Location"`
-	Address     string   `json:"Address"`
-	Price       string   `json:"Price"`
-	Description string   `json:"Description"`
-	Rating        int
-	ReviewsNo   int
-	TotalRating int
-	User    User `bson:"User,omitempty"`
+	Id          bson.ObjectId `json:"_id" bson:"_id,omitempty"`
+	SkillName   string
+	UserName    string
+	Tags        []string
+	UserID      string
+	Location    string
+	Address     string
+	Price       string
+	Description string
+	Comments    []Comment
+	Rating      int
 }
 
-//Review holds comment data
-type Review struct {
-  PostID  string
-	Idd      string
+//Comment holds comment data
+type Comment struct {
 	Name    string
 	Email   string
 	Comment string
 	Rating  int
-	User    User `bson:"_id,omitempty"`
 }
 
 //LoginDataStruct carries information about a user if logged in, or an
@@ -56,8 +49,6 @@ type LoginDataStruct struct {
 	URL  string
 	User User
 }
-
-//LookUp holds the user id  sent from the oauth provider
 type LookUp struct {
 	Provider       string
 	IdFromProvider string
@@ -84,6 +75,5 @@ type Page struct {
 type BookMark struct {
 	Name      string
 	SkillName string
-	Id        string
-	Phone     string
+	id        string
 }

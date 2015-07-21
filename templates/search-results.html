@@ -38,14 +38,30 @@
     <link rel="stylesheet" href="/assets/styles/main.css">
   </head>
   <body class="search-results">
-    {{ template "header" .}}
-  
+    <header >
+        <nav class="navigation" align="right">
+
+          <div class="input-group  nav-search" style="text-align:center">
+              <span class="input-group-addon"><i class="fa fa-search"></i></span>
+              <input type="text" class="input input-lg"  placeholder="Search ex. Electricians in Calabar"/>
+            </div>
+          <ul>
+            
+            <li ><a class="active"><i class="fa fa-home"></i> Home</a></li>
+            <li><a><img class="img-circle img-ppic" src="/assets/images/ppic.jpg"/> Anthony Alaribe</a></li>
+            <li><a><i class="fa fa-unlock" ></i> logout</a></li>
+          </ul>
+          <div style="clear:both"></div>
+
+        </nav>
+        <div style="clear:both"></div>
+    </header>
 
     <main class="search-main container">
     
     <div class="search-title">
-        <h2> {{.Q}}, {{.L}}</h2>
-        <span>Found {{.Page.Count}} results around location</span>
+        <h2> The search query, Location</h2>
+        <span>Found 120 results around location</span>
     </div>
     <div style="clear:both;"></div>
 
@@ -56,26 +72,39 @@
           </div>
 
           <div class="col-md-7">
-
-            {{ range .Data}}
-
               <div class="each-result">
-                  <h3><a href="/q/{{.Location}}/{{.Slug}}">{{.SkillName}}</a>
-                      <div><small class="goodx"> 0.0  </small>
-                          <span><strong>6</strong>
+                  <h3>Kesar Da Dhabha 
+                      <div><small class="good"> 3.6  </small>
+                          <span><strong>2566</strong>
                       votes</span></div>
                   </h3>
                   <div style="clear:both"></div>
-                  <span><strong>{{.Location}}</strong> &gt; {{.Address}}</span><br/>
-                  <p><img src="{{.User.Image}}" class="img-thumbnail pull-right" style="max-width:100px; margin-right:4px;">{{.Description}}
+                  <span><strong>Calabar</strong> &gt; University of Calabar
+                      cafeteria </span><br/>
+                  <p>Bacon ipsum dolor amet short loin capicola chuck leberkas doner short ribs t-bone filet mignon cow cupim chicken. Strip steak andouille shoulder turducken cupim biltong ham. Drumstick ribeye jerky andouille. Ribeye kevin pork belly, jowl short ribs cupim jerky pastrami salami shank bresaola. Cow kielbasa shank spare ribs. Drumstick pig pork belly short loin tenderloin shoulder tail biltong shankle ball tip.
+                      </p>
+                <div class="each-result-foot">
+                    <a> 80 photos </a>
+                    <a> 108 reviews </a>
+                </div>
+          </div>
+
+              <div class="each-result">
+                  <h3>Kesar Da Dhabha   
+                      <div><small class=""> 3.6  </small>
+                          <span><strong>566</strong>
+                      votes</span></div>
+                 </h3>
                   <div style="clear:both"></div>
-                  </p>
-                  <div class="each-result-foot">
-                      <a> 3 photos </a>
-                      <a> 8 reviews </a>
-                  </div>
-            </div>
-          {{end}}
+                  <span><strong>Calabar</strong> &gt; University of Calabar
+                      cafeteria </span><br/>
+                  <p>Bacon ipsum dolor amet short loin capicola chuck leberkas doner short ribs t-bone filet mignon cow cupim chicken. Strip steak andouille shoulder turducken cupim biltong ham. Drumstick ribeye jerky andouille. Ribeye kevin pork belly, jowl short ribs cupim jerky pastrami salami shank bresaola. Cow kielbasa shank spare ribs. Drumstick pig pork belly short loin tenderloin shoulder tail biltong shankle ball tip.
+                      </p>
+                <div class="each-result-foot">
+                    <a> 80 photos </a>
+                    <a> 108 reviews </a>
+                </div>
+          </div>
 
           <br/><br/><br/><br/><br/>
           </div>
